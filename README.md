@@ -31,6 +31,7 @@ The module will create:
 - Open data
 
 # Menu entries
+
 - Main menu:
   - About
     - Description of the project (see nodes)
@@ -39,10 +40,9 @@ The module will create:
   - News
   - Pilots
   - Contact
+  
 - Footer menu
   - Privacy
   - Cookies
   - Open data
   - Contact 
-  - Privacy 
-  - Cookies
