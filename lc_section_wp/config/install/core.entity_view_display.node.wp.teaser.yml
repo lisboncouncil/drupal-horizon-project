@@ -1,0 +1,76 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.wp.body
+    - field.field.node.wp.field_wp_coordinator_email
+    - field.field.node.wp.field_wp_coordinator_name
+    - field.field.node.wp.field_wp_lead_partner
+    - field.field.node.wp.field_wp_number
+    - node.type.wp
+  module:
+    - ds
+    - text
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      library: null
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        classes:
+          layout_class: {  }
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        label: ''
+    regions:
+      ds_content:
+        - node_title
+        - body
+        - field_wp_lead_partner
+    fields:
+      node_title:
+        plugin_id: node_title
+        weight: 0
+        label: hidden
+        formatter: default
+id: node.wp.teaser
+targetEntityType: node
+bundle: wp
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: ds_content
+  field_wp_lead_partner:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: false
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    weight: 2
+    region: ds_content
+hidden:
+  field_wp_coordinator_email: true
+  field_wp_coordinator_name: true
+  field_wp_number: true
+  links: true

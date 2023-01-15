@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_wp_coordinator_email
+    - node.type.wp
+id: node.wp.field_wp_coordinator_email
+field_name: field_wp_coordinator_email
+entity_type: node
+bundle: wp
+label: 'WP Coordinator email'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

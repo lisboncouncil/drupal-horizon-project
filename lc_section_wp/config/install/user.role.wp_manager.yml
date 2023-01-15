@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.wp
+  module:
+    - node
+id: wp_manager
+label: 'WP Manager'
+weight: -6
+is_admin: null
+permissions:
+  - 'create wp content'
+  - 'delete any wp content'
+  - 'delete own wp content'
+  - 'delete wp revisions'
+  - 'edit any wp content'
+  - 'edit own wp content'
+  - 'revert wp revisions'
+  - 'view wp revisions'

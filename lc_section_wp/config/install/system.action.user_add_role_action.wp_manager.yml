@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.wp_manager
+  module:
+    - user
+id: user_add_role_action.wp_manager
+label: 'Add the WP Manager role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: wp_manager

@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function lc_hcommon_theme($existing, $type, $theme, $path) {
+    
+    $vars = [
+          'data_owner' => NULL,
+          'data_owner_email' => NULL,
+          'do_not_track' => NULL,
+          'document_timestamp' => NULL,
+          'site_name' => NULL,
+      ];
+    
+  return [
+    'hpage_privacy' => [
+      'variables' => $vars,
+    ],
+    'hpage_cookies' => [
+      'variables' => $vars,
+    ],
+  ];
+}

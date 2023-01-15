@@ -1,0 +1,8 @@
+## YAML Template.
+---
+data_owner: "The Lisbon Council asbl\n
+    IPC-Residence Palace\n
+    155 rue de la Loi\n
+    1040 Brussels, Belgium"
+data_owner_email: marcello.verona@lisboncouncil.net
+do_not_track: TRUE

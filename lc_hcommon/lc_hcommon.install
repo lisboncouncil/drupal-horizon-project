@@ -1,0 +1,198 @@
+<?php
+
+use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ *
+ * @see system_install()
+ */
+function lc_hcommon_install() {
+
+  // Enable and disable modules:
+  _lc_hcommon_manage_modules();
+
+  // Create and populate the vocabulary.
+  _lc_hcommon_create_country_terms();
+
+  // Create menu entries
+  // _lc_hcommon_create_menu_entries();
+  _lc_hcommon_create_empty_nodes();
+
+}
+
+/**
+ * Create and install new vocabulary with terms.
+ */
+function _lc_hcommon_create_country_terms() {
+
+    $vid = "country";
+    $name = "Country";
+
+    $vocabularies = \Drupal\taxonomy\Entity\Vocabulary::loadMultiple();
+
+    if (!isset($vocabularies[$vid])) {
+      $vocabulary = \Drupal\taxonomy\Entity\Vocabulary::create(array(
+              'vid' => $vid,
+              'description' => 'EU27 Countries',
+              'name' => $name,
+      ))->save();
+      
+      $categories = [
+          'Austria',
+          'Belgium',
+          'Bulgaria',
+          'Croatia',
+          'Cyprus',
+          'Czechia',
+          'Denmark',
+          'Estonia',
+          'Finland',
+          'France',
+          'Germany',
+          'Greece',
+          'Hungary',
+          'Ireland',
+          'Italy',
+          'Latvia',
+          'Lithuania',
+          'Luxembourg',
+          'Malta',
+          'Netherlands',
+          'Poland',
+          'Portugal',
+          'Romania',
+          'Slovakia',
+          'Slovenia',
+          'Spain',
+          'Sweden',
+      ];
+
+      foreach ($categories as $category) {
+          $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->create([
+                  'name' => $category,
+                  'vid' => $vid,
+              ])->save();
+      }
+    }
+    else {
+        \Drupal::messenger()->addMessage($name . ' vocabulary alredy exits');
+    }
+}
+
+/**
+ * Create nodes and configure the menus.
+ */
+function _lc_hcommon_create_empty_nodes() {
+
+  // Add the about link
+  $menu_link_about = Drupal\menu_link_content\Entity\MenuLinkContent::create([
+    'title' =>  'About',
+    'link' => 'internal:/',
+    'menu_name' => 'main',
+    'expanded' => TRUE,
+    'weight' => -1,
+    'uuid' => 'dd944cfe-61b0-4b9b-a34b-9be7cd854d7c',
+  ]);
+  $menu_link_about->save();
+  $parent_about = $menu_link_about->getPluginId();
+
+  $pages = [
+    'project-description' => [
+      'title' => 'Description of the project',
+      'body'  => '',
+      'path'  => '/project-description',
+      'menu'  => 'main',
+      'parent'=> $parent_about,
+    ],
+    'governance' => [
+      'title' => 'Governance',
+      'body'  => '',
+      'path'  => '/governance',
+      'menu'  => 'main',
+      'parent'=> $parent_about,
+    ],
+    'contact' => [
+      'title' => 'Contact',
+      'body'  => '',
+      'path'  => '/contact',
+      'menu'  => 'main',
+      'parent'=> NULL,
+    ],
+    'opendata' => [
+      'title' => 'Open data',
+      'body'  => '',
+      'path'  => '/open-data',
+      'menu'  => 'footer',
+      'parent'=> NULL,
+    ],
+
+  ];
+
+  $k = 0;
+
+  foreach ( $pages as $node ) {
+
+    $new_page = \Drupal\node\Entity\Node::create([
+      'type' => 'page',
+      'uid' => 1,
+      'status' => 1,
+      'path' => $node['path'],
+    ]);
+    $new_page->set('title', $node['title']);
+    $new_page->set('body', $node['body']);
+    $new_page->enforceIsNew();
+    $new_page->save();
+
+    
+    // Add the link menu
+    $menu_link = Drupal\menu_link_content\Entity\MenuLinkContent::create([
+      'title' =>  $node['title'],
+      'link' => 'internal:/'.$node['path'],
+      'menu_name' => $node['menu'],
+      'expanded' => TRUE,
+      'weight' => ($k + 1),
+      'parent' => $node['parent'],
+    ]);
+    $menu_link->save();
+
+    $k++;
+  }
+
+  // Add a last element in the footer for contact
+
+  // Add the link menu
+  $menu_link = Drupal\menu_link_content\Entity\MenuLinkContent::create([
+    'title' =>  $pages['contact']['title'],
+    'link' => 'internal:/'.$pages['contact']['path'],
+    'menu_name' => 'footer',
+    'expanded' => TRUE,
+    'weight' => 10,
+    'parent' => NULL,
+  ]);
+  $menu_link->save();
+
+}
+
+/**
+ * Pre-install or uninstall some contrib modules.
+ */
+function _lc_hcommon_manage_modules() {
+
+  $enable=[];
+
+  $disable=[
+    'contact',
+  ];
+
+  if(count($enable)>0){
+    \Drupal::service('module_installer')->install($enable);
+  }
+
+  if(count($disable)>0){
+    \Drupal::service('module_installer')->uninstall($disable);
+  }
+
+}

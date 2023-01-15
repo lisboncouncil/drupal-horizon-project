@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_leading_beneficiary
+    - node.type.partner
+    - node.type.pilot
+id: node.pilot.field_leading_beneficiary
+field_name: field_leading_beneficiary
+entity_type: node
+bundle: pilot
+label: 'Leading Beneficiary'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      partner: partner
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

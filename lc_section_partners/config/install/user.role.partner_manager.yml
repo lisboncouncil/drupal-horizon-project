@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.partner
+  module:
+    - node
+    - system
+    - toolbar
+id: partner_manager
+label: 'Partner manager'
+weight: -7
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access content overview'
+  - 'access toolbar'
+  - 'create partner content'
+  - 'delete any partner content'
+  - 'delete own partner content'
+  - 'delete partner revisions'
+  - 'edit any partner content'
+  - 'edit own partner content'
+  - 'view own unpublished content'
+  - 'view partner revisions'
+  - 'view the administration theme'

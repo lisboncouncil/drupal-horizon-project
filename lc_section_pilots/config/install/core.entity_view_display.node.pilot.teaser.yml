@@ -1,0 +1,118 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.pilot.body
+    - field.field.node.pilot.field_image
+    - field.field.node.pilot.field_leading_beneficiary
+    - field.field.node.pilot.field_pilot_focus_area
+    - field.field.node.pilot.field_pilot_location
+    - field.field.node.pilot.field_pilot_objective
+    - field.field.node.pilot.field_pilot_subtitle
+    - node.type.pilot
+  module:
+    - advanced_text_formatter
+    - ds
+    - image
+    - layout_builder
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      library: null
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        classes:
+          layout_class: {  }
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        label: ''
+    regions:
+      ds_content:
+        - node_title
+        - field_pilot_subtitle
+        - body
+        - field_image
+    fields:
+      node_title:
+        plugin_id: node_title
+        weight: 0
+        label: hidden
+        formatter: default
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.pilot.teaser
+targetEntityType: node
+bundle: pilot
+mode: teaser
+content:
+  body:
+    type: advanced_text
+    label: above
+    settings:
+      trim_length: '600'
+      ellipsis: '1'
+      word_boundary: '1'
+      use_summary: '1'
+      filter: input
+      format: plain_text
+      allowed_html:
+        - a
+        - b
+        - br
+        - dd
+        - dl
+        - dt
+        - em
+        - i
+        - li
+        - ol
+        - p
+        - strong
+        - u
+        - ul
+      token_replace: 0
+      autop: 0
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    weight: 2
+    region: ds_content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: ds_content
+  field_pilot_subtitle:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: ds_content
+hidden:
+  field_leading_beneficiary: true
+  field_pilot_focus_area: true
+  field_pilot_location: true
+  field_pilot_objective: true
+  links: true

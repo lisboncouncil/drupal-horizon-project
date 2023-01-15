@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_wp_lead_partner
+    - node.type.partner
+    - node.type.wp
+id: node.wp.field_wp_lead_partner
+field_name: field_wp_lead_partner
+entity_type: node
+bundle: wp
+label: 'Lead partner'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      partner: partner
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

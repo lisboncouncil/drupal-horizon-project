@@ -1,0 +1,10 @@
+lc_hcommon.settings:
+  type: mapping
+  label: Variable Settings of module Lisbon Council Horizon Common
+  mapping:
+    data_owner:
+      type: string
+    data_owner_email:
+      type: email
+    do_not_track:
+      type: boolean
