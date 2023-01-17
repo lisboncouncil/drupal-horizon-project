@@ -87,14 +87,17 @@ function _lc_hcommon_create_country_terms() {
  */
 function _lc_hcommon_create_empty_nodes() {
 
+  $UUID_ABOUT = 'dd944cfe-61b0-4b9b-a34b-9be7cd854d7c';
+  $UUID_OUTCOMES = 'd0044cfe-61b0-4b9b-a34b-9be7cd854d7c';
+
   // Add the about link
   $menu_link_about = Drupal\menu_link_content\Entity\MenuLinkContent::create([
     'title' =>  'About',
     'link' => 'internal:/',
     'menu_name' => 'main',
     'expanded' => TRUE,
-    'weight' => -1,
-    'uuid' => 'dd944cfe-61b0-4b9b-a34b-9be7cd854d7c',
+    'weight' => 1,
+    'uuid' => $UUID_ABOUT,
   ]);
   $menu_link_about->save();
   $parent_about = $menu_link_about->getPluginId();
@@ -120,6 +123,7 @@ function _lc_hcommon_create_empty_nodes() {
       'path'  => '/contact',
       'menu'  => 'main',
       'parent'=> NULL,
+      'weight'=> 10,
     ],
     'opendata' => [
       'title' => 'Open data',
@@ -127,6 +131,14 @@ function _lc_hcommon_create_empty_nodes() {
       'path'  => '/open-data',
       'menu'  => 'footer',
       'parent'=> NULL,
+    ],
+    'outcomes' => [
+      'title' => 'Outcomes',
+      'body'  => '',
+      'path'  => '/outcomes',
+      'menu'  => 'main',
+      'parent'=> NULL,
+      'weight'=> 3,
     ],
 
   ];
@@ -153,7 +165,7 @@ function _lc_hcommon_create_empty_nodes() {
       'link' => 'internal:/'.$node['path'],
       'menu_name' => $node['menu'],
       'expanded' => TRUE,
-      'weight' => ($k + 1),
+      'weight' => $node['weight'] ?? ($k + 1),
       'parent' => $node['parent'],
     ]);
     $menu_link->save();
@@ -161,7 +173,7 @@ function _lc_hcommon_create_empty_nodes() {
     $k++;
   }
 
-  // Add a last element in the footer for contact
+  // Add a last element in the footer for contact page (also in main)
 
   // Add the link menu
   $menu_link = Drupal\menu_link_content\Entity\MenuLinkContent::create([

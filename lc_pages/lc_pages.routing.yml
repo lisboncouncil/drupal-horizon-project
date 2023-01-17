@@ -1,15 +1,15 @@
-lc_hcommon.privacy:
+lc_pages.privacy:
   path: '/privacy'
   defaults:
-    _controller: '\Drupal\lc_hcommon\Controller\LCHCommonController::privacyPage'
+    _controller: '\Drupal\lc_pages\Controller\LCPagesController::privacyPage'
     _title: 'Privacy'
   requirements:
     _permission: 'access content'
 
-lc_hcommon.cookies:
+lc_pages.cookies:
   path: '/cookies'
   defaults:
-    _controller: '\Drupal\lc_hcommon\Controller\LCHCommonController::cookiesPage'
+    _controller: '\Drupal\lc_pages\Controller\LCPagesController::cookiesPage'
     _title: 'Cookies'
   requirements:
     _permission: 'access content'

@@ -1,6 +1,6 @@
-lc_hcommon.settings:
+lc_pages.settings:
   type: mapping
-  label: Variable Settings of module Lisbon Council Horizon Common
+  label: Variable Settings of module Lisbon Council Horizon Pages
   mapping:
     data_owner:
       type: string

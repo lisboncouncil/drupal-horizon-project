@@ -1,12 +1,12 @@
 <?php
-namespace Drupal\lc_hcommon\Controller;
+namespace Drupal\lc_pages\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 
 /**
  * Provides route responses for the Example module.
  */
-class LCHCommonController extends ControllerBase {
+class LCPagesController extends ControllerBase {
 
   /**
    * Returns a simple page.
@@ -16,7 +16,7 @@ class LCHCommonController extends ControllerBase {
    */
   public function privacyPage() {
       
-    $config = \Drupal::config('lc_hcommon.settings');
+    $config = \Drupal::config('lc_pages.settings');
       
     return [
       '#theme' => 'hpage_privacy',
@@ -36,7 +36,7 @@ class LCHCommonController extends ControllerBase {
    */
   public function cookiesPage() {
       
-    $config = \Drupal::config('lc_hcommon.settings');
+    $config = \Drupal::config('lc_pages.settings');
       
     return [
       '#theme' => 'hpage_cookies',

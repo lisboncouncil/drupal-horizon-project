@@ -1,5 +1,5 @@
 name: Horizon Common Module
-description: Creates the common pages and other elements for the Lisbon Council Horizon's websites
+description: Orchestrate the installation of common elements for the Lisbon Council Horizon's websites
 package: LC
 type: module
 version: 1.0

@@ -1,14 +1,14 @@
 # Simple link.
-lc_hcommon.privacy:
+lc_pages.privacy:
   title: Privacy
   description: Privacy policy for this website
   menu_name: footer
-  route_name: lc_hcommon.privacy
+  route_name: lc_pages.privacy
   weight: 0
 
-lc_hcommon.cookies:
+lc_pages.cookies:
   title: Cookies
   description: Cookie policy for this website
-  route_name: lc_hcommon.cookies
+  route_name: lc_pages.cookies
   menu_name: footer
   weight: 1
