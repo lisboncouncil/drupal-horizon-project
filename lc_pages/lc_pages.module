@@ -3,7 +3,7 @@
 /**
  * Implements hook_theme().
  */
-function lc_hcommon_theme($existing, $type, $theme, $path) {
+function lc_pages_theme($existing, $type, $theme, $path) {
     
     $vars = [
           'data_owner' => NULL,
