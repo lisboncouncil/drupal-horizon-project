@@ -2,8 +2,10 @@
 
 This is a collection of modules and configuration useful for the creation of a new website.
 THe modules is organized with 
-- A first module **lc_hcommon** where are configured the creation of the pages (privacy, cookies), the predefined empty nodes of type page (governance, etc) and the menu configuration. The module also pre-install o uninstall some modules. Check the .install page for more details.
-- 
+- A first module **lc_hcommon** where are configured the predefined empty nodes of type page (governance, etc) and the menu configuration. The module also pre-install o uninstall some modules. Check the .install page for more details.
+- The **lc_pages** will install some common pages, like cookies and privacy.
+- The **lc_section_\*** will install a complete section, with content-type, roles, views, menu entries and permissions
+
 The modules will create:
 
 ## Content-types
