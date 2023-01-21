@@ -6,36 +6,38 @@ THe modules is organized with
 - The **lc_pages** will install some common pages, like cookies and privacy.
 - The **lc_section_\*** will install a complete section, with content-type, roles, views, menu entries and permissions
 
+## Content
+
 The modules will create:
 
-## Content-types
+### Content-types
 - Pilot (pilot pages of the project)
 - WP (Work package)
 - Partner (Partners of the project)
 
-## Views
+### Views
 - Pilot list (block, page)
 - Partner list (block, page)
 - Work package list (block)
 
-# Roles
+### Roles
 - WP Manager
 - Partner Manager
 
-# Taxonomies vocabulary and terms
+### Taxonomies vocabulary and terms
 - Country (EU27 countries)
 
-# Pages
+### Pages
 - Privacy
 - Cookies
 
-# Nodes (empty pages)
+### Nodes (empty pages)
 - Description of the project
 - Governance
 - Contact
 - Open data
 
-# Menu entries
+### Menu entries
 
 - Main menu:
   - About
@@ -51,3 +53,46 @@ The modules will create:
   - Cookies
   - Open data
   - Contact 
+
+## How to install
+
+Navigate in the web/modules/custom directory (or create if not exists),
+than create a "lc" folder and inside this execute the git clone.
+
+mkdir -p web/modules/custom/lc
+git clone git@github.com:lisboncouncil/drupal-horizon-project.git . 
+
+
+### Metod Composer
+
+This method has to be improved with the copy of the directories in the modules/custom dir.
+
+Add this to the composer.json
+
+‘‘‘
+"repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "lisboncouncil/drupal-horizon-project",
+                "version": "1.0",
+                "type":"module",
+                "source": {
+                    "url": "https://github.com/lisboncouncil/drupal-horizon-project.git",
+                    "type": "git",
+                    "reference": "main"
+                }
+            }
+        },
+  ]
+  ‘‘‘
+  
+  After that
+  
+  ‘‘‘
+  composer require lisboncouncil/drupal-horizon-project
+  ‘‘‘ 
