@@ -69,7 +69,7 @@ This method has to be improved with the copy of the directories in the modules/c
 
 Add this to the composer.json
 
-‘‘‘
+```
 "repositories": [
         {
             "type": "composer",
@@ -89,10 +89,10 @@ Add this to the composer.json
             }
         },
   ]
-  ‘‘‘
+```
   
   After that
   
-  ‘‘‘
+```
   composer require lisboncouncil/drupal-horizon-project
-  ‘‘‘ 
+```
