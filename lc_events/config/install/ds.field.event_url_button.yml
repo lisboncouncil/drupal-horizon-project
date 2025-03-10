@@ -1,0 +1,11 @@
+id: event_url_button
+label: 'Event URL button'
+ui_limit: 'event|*'
+type: token
+type_label: 'Token field'
+entities:
+  node: node
+properties:
+  content:
+    value: '<p><a class="btn btn-primary btn-event-url" href="uri]">Event URL on web</a></p>'
+    format: full_html

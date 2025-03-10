@@ -1,0 +1,35 @@
+name: 'LC Event'
+description: 'Provides Event content type and related configuration. Relevant events of the project'
+type: module
+core_version_requirement: '^9.4 || ^10'
+dependencies:
+  - address
+  - calendar_view
+  - ds
+  - editor
+  - field
+  - field_group
+  - field_layout
+  - file
+  - filter
+  - geocoder
+  - geocoder_address
+  - geocoder_field
+  - geolocation
+  - geolocation_address
+  - geolocation_google_maps
+  - image
+  - link
+  - menu_ui
+  - metatag
+  - node
+  - path
+  - pathauto
+  - responsive_image
+  - scheduler
+  - smart_date
+  - taxonomy
+  - text
+  - user
+  - views
+version: '1.1'

@@ -1,0 +1,6 @@
+lc_zenodo_publications.settings:
+  title: 'Zenodo Publications Settings'
+  description: 'Configure the LC Zenodo Publications module.'
+  route_name: lc_zenodo_publications.settings
+  parent: system.admin_config
+  weight: 100

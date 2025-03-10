@@ -1,0 +1,15 @@
+lc_zenodo_publications.list:
+  path: '/publications'
+  defaults:
+    _controller: '\Drupal\lc_zenodo_publications\Controller\PublicationController::listPublications'
+    _title: 'Publications'
+  requirements:
+    _permission: 'access content'
+
+lc_zenodo_publications.settings:
+  path: '/admin/config/zenodo-publications'
+  defaults:
+    _form: 'Drupal\lc_zenodo_publications\Form\SettingsForm'
+    _title: 'Zenodo Publications Settings'
+  requirements:
+    _permission: 'administer site configuration'

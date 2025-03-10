@@ -13,3 +13,11 @@ lc_pages.cookies:
     _title: 'Cookies'
   requirements:
     _permission: 'access content'
+
+lc_pages.join-the-project:
+  path: '/join-the-project'
+  defaults:
+    _controller: '\Drupal\lc_pages\Controller\LCPagesController::joinTheProjectPage'
+    _title: 'Join the project'
+  requirements:
+    _permission: 'access content'

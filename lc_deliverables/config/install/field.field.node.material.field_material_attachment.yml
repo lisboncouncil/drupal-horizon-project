@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_material_attachment
+    - node.type.material
+  module:
+    - file
+id: node.material.field_material_attachment
+field_name: field_material_attachment
+entity_type: node
+bundle: material
+label: Attachment
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: materials
+  file_extensions: 'txt png pdf zip jpg jpeg doc docx xls xlsx ppt pptx'
+  max_filesize: ''
+  description_field: true
+field_type: file

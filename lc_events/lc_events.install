@@ -1,0 +1,68 @@
+<?php 
+
+// Lc Events module
+
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
+
+/**
+ * Implements hook_install()
+ * 
+ * @return null
+ */
+function lc_events_install($is_syncing) {
+
+	$vocabulary_machine_name = 'event_category';
+
+	// Load the vocabulary by machine name.
+	$vocabulary = Vocabulary::load($vocabulary_machine_name);
+
+	if ($vocabulary) {
+		// Get the taxonomy term storage.
+		$term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+		// Get the list of terms for the vocabulary.
+		$term_ids = $term_storage->getQuery()
+			->condition('vid', $vocabulary->id())
+			->execute();
+
+		// Count the number of terms.
+		$term_count = count($term_ids);
+
+		if($term_count > 0) {
+
+			print sprintf("The vocabulary %s is not empty: skipping terms adding", $vocabulary_machine_name);
+			return null;
+		}
+	}
+	else {
+		print sprintf("Vocabulary %s not existent!", $vocabulary_machine_name);
+		return null;
+	}
+
+	$terms = [
+		'Conference',
+		'Infoday',
+		'Online conference',
+		'Project Meeting',
+		'Training workshop',
+		'Webinar',
+		'Workshop',
+	];
+
+	foreach($terms as $term) {
+
+		$new_term = Term::create([
+		  'vid' => $vocabulary_machine_name,
+		  'name' => $term,
+		]);
+
+		$new_term->enforceIsNew();
+		$new_term->save();
+
+	}
+
+	print sprintf("Terms added to %s.", $vocabulary_machine_name);
+
+	return null;
+}

@@ -1,0 +1,34 @@
+<div class="publications-list">
+
+  <div class="pub-intro well">
+    Project publications are originally saved on a Zenodo community.
+    Access the <a href="{{path_page}}">project's community page</a> 
+    to see the details.
+  </div>
+
+  <div class="n-pubs">There are <strong>{{n_pubs}}</strong> publications</div>
+
+  <div class="row">
+    {% for publication in publications %}
+      <div class="pub-item my-5">
+
+        <h3>
+          <a href="https://doi.org/{{publication.doi}}" rel="nofollow">
+            {{publication.title}}
+          </a>
+        </h3>
+
+        <div class="pub-authors">{{ publication.authors | join('; ') | raw }}</div>
+        
+        <div class="pub-date">
+          Publication date: {{publication.publication_date}}
+          -
+          DOI: {{publication.doi}}
+        </div>
+        <div class="pub-abstract">
+          {{publication.description | raw}}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

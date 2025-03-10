@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+    - image
+    - node
+id: node.field_event_image
+field_name: field_event_image
+entity_type: node
+type: image
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  default_image:
+    uuid: 89762f7d-c0fb-421b-99a3-d7a4de93192a
+    alt: 'Event image'
+    title: 'Event image'
+    width: 1440
+    height: 769
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,9 @@
+name: 'Zenodo Publications'
+type: module
+package: LC
+description: 'Module to view publications from a Zenodo community in a Lisbon Council project website.'
+core_version_requirement: ^10 || ^9
+dependencies:
+  - drupal:config
+  - drupal:system
+configure: lc_zenodo_publications.settings

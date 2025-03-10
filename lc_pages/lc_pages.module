@@ -14,6 +14,9 @@ function lc_pages_theme($existing, $type, $theme, $path) {
       ];
     
   return [
+    'hpage_join_the_project' => [
+      'variables' => []
+    ],
     'hpage_privacy' => [
       'variables' => $vars,
     ],

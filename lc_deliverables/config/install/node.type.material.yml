@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Material
+type: material
+description: 'Infographics, deliverable and other downloadable elements'
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

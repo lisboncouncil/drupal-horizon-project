@@ -1,0 +1,202 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.event_list_element
+    - field.field.node.event.body
+    - field.field.node.event.field_event_address
+    - field.field.node.event.field_event_agenda
+    - field.field.node.event.field_event_category
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_geolocation
+    - field.field.node.event.field_event_image
+    - field.field.node.event.field_event_url
+    - node.type.event
+    - responsive_image.styles.wide
+  module:
+    - address
+    - ds
+    - field_group
+    - responsive_image
+    - smart_date
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      library: null
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        classes:
+          layout_class: {  }
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        label: ''
+    regions:
+      ds_content:
+        - group_row
+        - field_event_image
+        - node_title
+        - field_event_date
+        - field_event_address
+        - group_col_
+        - group_col_dx
+    fields:
+      node_title:
+        plugin_id: node_title
+        weight: 2
+        label: hidden
+        formatter: default
+        settings:
+          link: true
+          'link class': ''
+          wrapper: h4
+          class: ''
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+  layout_builder:
+    enabled: false
+    allow_custom: false
+  field_group:
+    group_row:
+      children:
+        - group_col_
+        - group_col_dx
+      label: Row
+      parent_name: ''
+      region: ds_content
+      weight: 0
+      format_type: html_element
+      format_settings:
+        classes: 'row row-event'
+        show_empty_fields: false
+        id: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+    group_col_:
+      children:
+        - field_event_image
+      label: 'Col sx'
+      parent_name: group_row
+      region: ds_content
+      weight: 10
+      format_type: html_element
+      format_settings:
+        classes: 'col col-lg-6 col-md-4 col-sx'
+        show_empty_fields: false
+        id: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+    group_col_dx:
+      children:
+        - node_title
+        - field_event_date
+        - field_event_address
+      label: 'Col dx'
+      parent_name: group_row
+      region: ds_content
+      weight: 11
+      format_type: html_element
+      format_settings:
+        classes: 'col col-lg-6 col-md-8 col-dx'
+        show_empty_fields: false
+        id: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+id: node.event.event_list_element
+targetEntityType: node
+bundle: event
+mode: event_list_element
+content:
+  field_event_address:
+    type: address_plain
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: ds_content
+  field_event_date:
+    type: smartdate_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+      format: customized_lc
+      force_chronological: false
+      add_classes: false
+      time_wrapper: true
+      localize: false
+      parts:
+        start: start
+        end: end
+        duration: '0'
+      duration:
+        separator: ' | '
+        unit: ''
+        decimals: 2
+        suffix: h
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    weight: 3
+    region: ds_content
+  field_event_image:
+    type: responsive_image
+    label: hidden
+    settings:
+      responsive_image_style: wide
+      image_link: content
+      image_loading:
+        attribute: lazy
+    third_party_settings:
+      field_formatter_class:
+        class: ''
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    weight: 2
+    region: ds_content
+hidden:
+  body: true
+  field_event_agenda: true
+  field_event_category: true
+  field_event_geolocation: true
+  field_event_url: true
+  links: true
+  node_read_time: true
+  published_at: true

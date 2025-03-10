@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.event
+    - taxonomy.vocabulary.event_category
+  module:
+    - node
+    - taxonomy
+id: event_manager
+label: 'Event manager'
+weight: -7
+is_admin: null

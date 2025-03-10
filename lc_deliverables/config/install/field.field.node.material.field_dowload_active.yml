@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dowload_active
+    - node.type.material
+id: node.material.field_dowload_active
+field_name: field_dowload_active
+entity_type: node
+bundle: material
+label: 'Download is active'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'yes'
+  off_label: 'no'
+field_type: boolean

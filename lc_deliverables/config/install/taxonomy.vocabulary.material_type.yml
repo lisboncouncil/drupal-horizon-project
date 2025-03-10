@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Material type'
+vid: material_type
+description: ''
+weight: 0

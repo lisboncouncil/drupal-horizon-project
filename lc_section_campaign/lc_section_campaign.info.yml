@@ -1,5 +1,5 @@
-name: Section Pilots
-description: Note type, views and role for the project Pilots.
+name: Section Campaigns
+description: Note type, views and role for the project Campaign.
 package: LC
 type: module
 version: 1.0

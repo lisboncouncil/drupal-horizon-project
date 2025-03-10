@@ -1,0 +1,6 @@
+services:
+  lc_zenodo_publications.update:
+    class: Drupal\lc_zenodo_publications\UpdateService
+    arguments: ['@config.factory', '@http_client']
+    tags:
+      - { name: cron }

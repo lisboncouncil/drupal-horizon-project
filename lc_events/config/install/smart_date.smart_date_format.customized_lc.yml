@@ -1,0 +1,17 @@
+uuid: a590f0ff-9fe1-4b9d-9309-b7444f937d95
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: bwCwM0lYxtSHOJq-L5enDmpcUNAx08f4eGBWATzTFuQ
+id: customized_lc
+label: 'Customized LC'
+date_format: 'j F Y'
+time_format: 'g:ia'
+time_hour_format: ga
+allday_label: 'All day'
+separator: ' - '
+join: ', '
+ampm_reduce: '1'
+date_first: '1'
+site_time_toggle: '1'

@@ -1,0 +1,74 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.material.body
+    - field.field.node.material.field_dowload_active
+    - field.field.node.material.field_due_date_month_
+    - field.field.node.material.field_image
+    - field.field.node.material.field_material_attachment
+    - field.field.node.material.field_material_type
+    - node.type.material
+  module:
+    - ds
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: layout_onecol
+      library: layout_discovery/onecol
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        classes: {  }
+        wrappers:
+          content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+    regions:
+      content:
+        - published_at
+        - body
+        - field_image
+        - field_material_attachment
+        - field_material_type
+        - links
+        - field_dowload_active
+        - field_due_date_month_
+id: node.material.default
+targetEntityType: node
+bundle: material
+mode: default
+content:
+  field_dowload_active:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_due_date_month_:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  body: true
+  field_image: true
+  field_material_attachment: true
+  field_material_type: true
+  published_at: true

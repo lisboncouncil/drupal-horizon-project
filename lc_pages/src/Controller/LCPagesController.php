@@ -14,6 +14,20 @@ class LCPagesController extends ControllerBase {
    * @return array
    *   A simple renderable array.
    */
+  public function joinTheProjectPage() {
+           
+    return [
+      '#theme' => 'hpage_join_the_project',
+    ];
+  }
+
+
+  /**
+   * Returns a simple page.
+   *
+   * @return array
+   *   A simple renderable array.
+   */
   public function privacyPage() {
       
     $config = \Drupal::config('lc_pages.settings');
