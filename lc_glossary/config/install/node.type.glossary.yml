@@ -1,0 +1,17 @@
+uuid: 626c0abb-3941-4e38-a910-ed6f3779ed51
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Glossary
+type: glossary
+description: 'Glossary of the project'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false
