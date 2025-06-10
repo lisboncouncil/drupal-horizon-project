@@ -379,7 +379,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: "<p>This section contains the public deliverables of the project.</p>\r\n\r\n<hr />"
+          content: "<h2 class=\"visually-hidden\">Public deliverables of the project</h2>\r\n<p>&nbsp;</p>\r\n<p><p>This section contains the public deliverables of the project.</p>\r\n\r\n<hr />"
           tokenize: false
       footer: {  }
       display_extenders: {  }
@@ -412,7 +412,9 @@ display:
           category_facets: {  }
           category_facets_concat_separator: ', '
         metatag_display_extender:
-          metatags: {  }
+          metatags:
+            title: 'Public Deliverables'
+            description: "List of the project's public deliverables available for the download."
           tokenize: false
       path: materials/public-deliverables
       menu:
