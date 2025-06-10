@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for LC Social module.
+ */
+
+function lc_social_theme() {
+  return [
+    'social_links' => [
+      'variables' => [
+        'data' => []
+      ],
+    ],
+  ];
+}

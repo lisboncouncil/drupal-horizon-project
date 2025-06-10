@@ -1,0 +1,28 @@
+
+.social{
+  margin-top: 1rem;
+}
+
+.social-links{
+  margin-top: 0.625rem;
+  grid-template-columns: 40px 40px 40px;
+  grid-template-rows: 50px auto;
+  -webkit-column-gap: 15px;
+  -moz-column-gap: 15px;
+  column-gap: 15px;
+  row-gap: 7px;
+  display: grid;
+}
+
+.social-link svg{
+  fill: var(--bs-primary);
+  width: 100%;
+  height: 100%;
+}
+
+.social-link:hover svg {
+  fill: var(--bs-info);
+}
+.social-link:hover svg path{
+  fill: var(--bs-info);
+}
