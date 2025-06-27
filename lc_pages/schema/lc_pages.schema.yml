@@ -8,3 +8,9 @@ lc_pages.settings:
       type: email
     do_not_track:
       type: boolean
+    email_accessibility: 
+      type: string
+    accessibility_date: 
+      type: string
+    accessibility_date_next:
+      type: string

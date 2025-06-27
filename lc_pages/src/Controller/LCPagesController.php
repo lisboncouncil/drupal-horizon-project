@@ -79,6 +79,9 @@ class LCPagesController extends ControllerBase {
       '#do_not_track' => $config->get('do_not_track'),
       '#document_timestamp' => date('j M Y', filemtime(__FILE__)),
       '#site_name' => \Drupal::config('system.site')->get('name'),
+      '#email_accessibility' => $config->get('email_accessibility'),
+      '#accessibility_date' => $config->get('accessibility_date'),
+      '#accessibility_date_next' => $config->get('accessibility_date_next'),
     ];
   }
 
