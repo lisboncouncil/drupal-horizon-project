@@ -13,3 +13,10 @@ lc_pages.cookies:
   menu_name: footer
   weight: 1
 
+lc_pages.accessibility-statement:
+  title: Accessibility statement
+  description: Accessibility statement for this website
+  route_name: lc_pages.accessibility-statement
+  menu_name: footer
+  weight: 2
+
