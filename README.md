@@ -59,9 +59,11 @@ The modules will create:
 Navigate in the web/modules/custom directory (or create if not exists),
 than create a "lc" folder and inside this execute the git clone.
 
+```
 mkdir -p web/modules/custom/lc
+cd web/modules/custom/lc
 git clone git@github.com:lisboncouncil/drupal-horizon-project.git . 
-
+```
 
 ### Metod Composer
 

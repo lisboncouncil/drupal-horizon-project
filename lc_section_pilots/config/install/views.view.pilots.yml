@@ -465,6 +465,20 @@ display:
     display_plugin: page
     position: 1
     display_options:
+       defaults:
+        header: false
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<h2 class="visually-hidden">Pilots of the project</h2>'
+          tokenize: false
       display_extenders:
         matomo:
           enabled: false

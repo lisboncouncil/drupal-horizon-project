@@ -3,7 +3,7 @@ description: Note type, views and role for the project Campaign.
 package: LC
 type: module
 version: 1.0
-core_version_requirement: ^9.4 || ^10
+core_version_requirement: ^9.4 || ^10 || ^11
 dependencies: 
   - image
   - views

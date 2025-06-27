@@ -23,7 +23,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Glossary of disinformation'
+      title: 'Glossary'
       fields:
         title_1:
           id: title_1
@@ -341,7 +341,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: "A short glossary of key words and acronyms used in the disinformation analysis, articles and reports cited on this site. The definitions are taken from <em>1st EEAS Report on Foreign Information Manipulation and Interference Threats</em>, EEAS - Feb 2023.\r\n\r\n<hr />"
+          content: "<h2 class=\"visually-hidden\">Glossary about project and his topics</h2>\r\nA short glossary of key words and acronyms used the project.\r\n<hr />""
           tokenize: false
       footer: {  }
       display_extenders: {  }
