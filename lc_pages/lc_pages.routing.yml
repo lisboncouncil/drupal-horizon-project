@@ -21,3 +21,11 @@ lc_pages.join-the-project:
     _title: 'Join the project'
   requirements:
     _permission: 'access content'
+
+lc_pages.accessibility-statement:
+  path: '/accessibility'
+  defaults:
+    _controller: '\Drupal\lc_pages\Controller\LCPagesController::accessibilityStatementPage'
+    _title: 'Accessibility statement'
+  requirements:
+    _permission: 'access content'

@@ -11,6 +11,9 @@ function lc_pages_theme($existing, $type, $theme, $path) {
           'do_not_track' => NULL,
           'document_timestamp' => NULL,
           'site_name' => NULL,
+          'email_accessibility' => NULL,
+          'accessibility_date' => NULL,
+          'accessibility_date_next' => NULL,
       ];
     
   return [
@@ -21,6 +24,9 @@ function lc_pages_theme($existing, $type, $theme, $path) {
       'variables' => $vars,
     ],
     'hpage_cookies' => [
+      'variables' => $vars,
+    ],
+    'hpage_accessibility_statement' => [
       'variables' => $vars,
     ],
   ];
