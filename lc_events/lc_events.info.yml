@@ -1,7 +1,7 @@
 name: 'LC Event'
 description: 'Provides Event content type and related configuration. Relevant events of the project'
 type: module
-core_version_requirement: '^9.4 || ^10'
+core_version_requirement: '^9.4 || ^10 || ^11'
 dependencies:
   - address
   - calendar_view
