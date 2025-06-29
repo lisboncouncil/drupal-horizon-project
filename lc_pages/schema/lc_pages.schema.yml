@@ -10,7 +10,13 @@ lc_pages.settings:
       type: boolean
     email_accessibility: 
       type: string
+      label: 'Email for the notification of the accessibility issues'
     accessibility_date: 
       type: string
+      label: 'Date of the creation of the Accessibility statement'
     accessibility_date_next:
       type: string
+      label: 'Date of the planned review of the Accessibility statement'
+    additional_issues:
+      type: string
+      label: 'HTML (list) of the issues specific for this website'

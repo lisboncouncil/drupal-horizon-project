@@ -29,3 +29,11 @@ lc_pages.accessibility-statement:
     _title: 'Accessibility statement'
   requirements:
     _permission: 'access content'
+
+lc_pages.settings:
+  path: '/admin/config/lc-pages/settings'
+  defaults:
+    _form: '\Drupal\lc_pages\Form\SettingsForm'
+    _title: 'LC pages Settings'
+  requirements:
+    _permission: 'administer site configuration'

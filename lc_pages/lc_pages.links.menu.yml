@@ -20,3 +20,9 @@ lc_pages.accessibility-statement:
   menu_name: footer
   weight: 2
 
+lc_pages.settings:
+  title: 'LC Pages Settings'
+  description: 'Configure LC Pages settings.'
+  parent: system.admin_config
+  route_name: lc_pages.settings
+  weight: 10
