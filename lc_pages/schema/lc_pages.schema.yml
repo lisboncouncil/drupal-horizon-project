@@ -9,7 +9,7 @@ lc_pages.settings:
     do_not_track:
       type: boolean
     email_accessibility: 
-      type: string
+      type: email
       label: 'Email for the notification of the accessibility issues'
     accessibility_date: 
       type: string
