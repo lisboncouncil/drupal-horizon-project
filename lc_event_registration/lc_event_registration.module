@@ -1,0 +1,271 @@
+<?php
+
+/**
+ * @file
+ * Hooks for lc_event_registration module.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_entity_extra_field_info().
+ *
+ * Declares a pseudo-field for the registration button so it can be
+ * positioned via Display Suite or any other display management tool.
+ */
+function lc_event_registration_entity_extra_field_info(): array {
+  $extra = [];
+
+  // Only add if the event node type exists.
+  $node_type = \Drupal::entityTypeManager()
+    ->getStorage('node_type')
+    ->load('event');
+  if ($node_type) {
+    $extra['node']['event']['display']['event_registration_action'] = [
+      'label' => t('Registration button'),
+      'description' => t('Shows register button, registration status, or already-registered message.'),
+      'weight' => 100,
+      'visible' => TRUE,
+    ];
+  }
+
+  return $extra;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for node entities.
+ *
+ * Renders the registration action pseudo-field on event nodes.
+ */
+function lc_event_registration_node_view(array &$build, NodeInterface $entity, EntityViewDisplayInterface $display, string $view_mode): void {
+  if ($entity->bundle() !== 'event') {
+    return;
+  }
+  // Check both standard components and DS layout regions.
+  $in_ds_region = FALSE;
+  $ds_regions = $display->getThirdPartySetting('ds', 'regions', []);
+  foreach ($ds_regions as $region_fields) {
+    if (in_array('event_registration_action', $region_fields, TRUE)) {
+      $in_ds_region = TRUE;
+      break;
+    }
+  }
+  if (!$display->getComponent('event_registration_action') && !$in_ds_region) {
+    return;
+  }
+  if (!$entity->isPublished()) {
+    return;
+  }
+  if (!$entity->hasField('field_registration_enabled')) {
+    return;
+  }
+  if (!(bool) $entity->get('field_registration_enabled')->value) {
+    return;
+  }
+
+  // Vary render cache by user (registered status differs per user).
+  $build['#cache']['contexts'][] = 'user';
+
+  /** @var \Drupal\lc_event_registration\Service\RegistrationManager $manager */
+  $manager = \Drupal::service('lc_event_registration.manager');
+  $account = \Drupal::currentUser();
+
+  // Check if the user is already registered.
+  if ($account->isAuthenticated()) {
+    $user = \Drupal::entityTypeManager()->getStorage('user')->load($account->id());
+    if ($user && $manager->is_already_registered($entity, $user->getEmail())) {
+      $build['event_registration_action'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#attributes' => ['class' => ['alert', 'alert-success', 'mt-3']],
+        '#value' => t('You are registered for this event.'),
+      ];
+      return;
+    }
+  }
+
+  // Check registration status and show appropriate message.
+  $status = $manager->get_registration_status($entity);
+  if ($status !== 'open') {
+    $messages = [
+      'not_yet_open' => t('Registration is not yet open.'),
+      'closed' => t('Registration is closed.'),
+      'full' => t('Registration is full.'),
+    ];
+    $message = $messages[$status] ?? t('Registration is not available.');
+    if ($status === 'not_yet_open' && $entity->hasField('field_registration_open_date')) {
+      $open_date = $entity->get('field_registration_open_date')->value;
+      if ($open_date) {
+        $formatted = date('j F Y', strtotime($open_date));
+        $message = t('Registration opens on @date.', ['@date' => $formatted]);
+      }
+    }
+    $build['event_registration_action'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => ['class' => ['alert', 'alert-warning', 'mt-3']],
+      '#value' => $message,
+    ];
+    return;
+  }
+
+  // Show registration button.
+  $build['event_registration_action'] = [
+    '#type' => 'link',
+    '#title' => t('Register for this event'),
+    '#url' => Url::fromRoute('lc_event_registration.register', ['node' => $entity->id()]),
+    '#attributes' => ['class' => ['btn', 'btn-primary', 'btn-event-register', 'mt-3']],
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for node_event_form.
+ *
+ * Groups registration fields into a fieldset on the event node edit form.
+ */
+function lc_event_registration_form_node_event_form_alter(array &$form, FormStateInterface $form_state) {
+  _lc_event_registration_event_form_alter($form, $form_state);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for node_event_edit_form.
+ */
+function lc_event_registration_form_node_event_edit_form_alter(array &$form, FormStateInterface $form_state) {
+  _lc_event_registration_event_form_alter($form, $form_state);
+}
+
+/**
+ * Shared form alter for event node add/edit forms.
+ *
+ * Groups registration fields into a details container and adds
+ * conditional visibility.
+ */
+function _lc_event_registration_event_form_alter(array &$form, FormStateInterface $form_state) {
+  // Only alter if our fields exist.
+  if (!isset($form['field_registration_enabled'])) {
+    return;
+  }
+
+  $form['registration_settings'] = [
+    '#type' => 'details',
+    '#title' => t('Registration settings'),
+    '#open' => FALSE,
+    '#weight' => 50,
+  ];
+
+  $form['field_registration_enabled']['#group'] = 'registration_settings';
+  $form['field_registration_open_date']['#group'] = 'registration_settings';
+  $form['field_registration_close_date']['#group'] = 'registration_settings';
+  $form['field_registration_capacity']['#group'] = 'registration_settings';
+  $form['field_registration_fields']['#group'] = 'registration_settings';
+  if (isset($form['field_registration_thank_you'])) {
+    $form['field_registration_thank_you']['#group'] = 'registration_settings';
+  }
+  if (isset($form['field_registration_intro'])) {
+    $form['field_registration_intro']['#group'] = 'registration_settings';
+  }
+  if (isset($form['field_registration_notify_emails'])) {
+    $form['field_registration_notify_emails']['#group'] = 'registration_settings';
+  }
+  if (isset($form['field_event_online_link'])) {
+    $form['field_event_online_link']['#group'] = 'registration_settings';
+  }
+
+  // Show other fields only when registration is enabled.
+  $enabled_state = [
+    'visible' => [
+      ':input[name="field_registration_enabled[value]"]' => ['checked' => TRUE],
+    ],
+  ];
+  $form['field_registration_open_date']['#states'] = $enabled_state;
+  $form['field_registration_close_date']['#states'] = $enabled_state;
+  $form['field_registration_capacity']['#states'] = $enabled_state;
+  $form['field_registration_fields']['#states'] = $enabled_state;
+  if (isset($form['field_registration_thank_you'])) {
+    $form['field_registration_thank_you']['#states'] = $enabled_state;
+  }
+  if (isset($form['field_registration_intro'])) {
+    $form['field_registration_intro']['#states'] = $enabled_state;
+  }
+  if (isset($form['field_registration_notify_emails'])) {
+    $form['field_registration_notify_emails']['#states'] = $enabled_state;
+  }
+  if (isset($form['field_event_online_link'])) {
+    $form['field_event_online_link']['#states'] = $enabled_state;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function lc_event_registration_theme(): array {
+  return [
+    'lc_event_registration_email_wrapper' => [
+      'variables' => [
+        'header_color' => '#0B4A89',
+        'primary_color' => '#0B4A89',
+        'logo_url' => '',
+        'site_name' => '',
+        'site_url' => '',
+        'privacy_url' => '',
+        'body_content' => '',
+      ],
+    ],
+    'lc_event_registration_email_confirmation' => [
+      'variables' => [
+        'first_name' => '',
+        'last_name' => '',
+        'email' => '',
+        'event_title' => '',
+        'event_url' => '',
+        'event_date' => '',
+        'event_location' => '',
+        'coordinates' => NULL,
+        'map_image_url' => NULL,
+        'agenda_html' => '',
+        'organisation' => '',
+        'online_link' => '',
+        'ical_url' => '',
+        'primary_color' => '#0B4A89',
+        'secondary_color' => '#5a9e56',
+      ],
+    ],
+    'lc_event_registration_email_notification' => [
+      'variables' => [
+        'event_title' => '',
+        'first_name' => '',
+        'last_name' => '',
+        'reg_email' => '',
+        'optional_fields' => [],
+        'count' => 0,
+        'capacity' => 0,
+        'admin_url' => '',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_html().
+ *
+ * Adds 'event-registration' body class on registration pages.
+ */
+function lc_event_registration_preprocess_html(array &$variables): void {
+  $route = \Drupal::routeMatch()->getRouteName();
+  if ($route && str_starts_with($route, 'lc_event_registration.')) {
+    $variables['attributes']['class'][] = 'event-registration';
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function lc_event_registration_mail($key, &$message, $params) {
+  $message['subject'] = $params['subject'] ?? 'Event Registration';
+  $message['body'][] = $params['body'] ?? '';
+  $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
+}

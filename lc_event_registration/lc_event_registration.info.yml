@@ -1,0 +1,13 @@
+name: 'LC Event Registration'
+type: module
+description: 'Event registration system with configurable fields, user auto-creation, and capacity management.'
+core_version_requirement: '^10 || ^11'
+package: 'LC'
+configure: lc_event_registration.settings
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:datetime
+  - drupal:field
+  - drupal:options
+  - drupal:views

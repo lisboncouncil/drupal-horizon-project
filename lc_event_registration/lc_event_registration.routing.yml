@@ -1,0 +1,57 @@
+lc_event_registration.settings:
+  path: '/admin/config/lc-event-registration/settings'
+  defaults:
+    _form: '\Drupal\lc_event_registration\Form\SettingsForm'
+    _title: 'Event Registration Settings'
+  requirements:
+    _permission: 'administer event_registration'
+
+lc_event_registration.register:
+  path: '/events/{node}/register'
+  defaults:
+    _form: '\Drupal\lc_event_registration\Form\EventRegistrationForm'
+    _title: 'Event registration'
+  requirements:
+    _custom_access: '\Drupal\lc_event_registration\Form\EventRegistrationForm::access'
+    node: '\d+'
+  options:
+    parameters:
+      node:
+        type: entity:node
+
+lc_event_registration.thank_you:
+  path: '/events/{node}/register/thank-you'
+  defaults:
+    _controller: '\Drupal\lc_event_registration\Controller\EventRegistrationController::thank_you'
+    _title: 'Registration confirmed'
+  requirements:
+    _access: 'TRUE'
+    node: '\d+'
+  options:
+    parameters:
+      node:
+        type: entity:node
+
+lc_event_registration.ical:
+  path: '/events/{node}/register/calendar.ics'
+  defaults:
+    _controller: '\Drupal\lc_event_registration\Controller\EventRegistrationController::ical'
+  requirements:
+    _access: 'TRUE'
+    node: '\d+'
+  options:
+    parameters:
+      node:
+        type: entity:node
+
+lc_event_registration.cancel:
+  path: '/admin/content/event-registrations/{event_registration}/cancel'
+  defaults:
+    _controller: '\Drupal\lc_event_registration\Controller\EventRegistrationController::cancel'
+  requirements:
+    _permission: 'cancel event_registration'
+    _csrf_token: 'TRUE'
+  options:
+    parameters:
+      event_registration:
+        type: entity:event_registration

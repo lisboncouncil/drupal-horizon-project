@@ -1,0 +1,16 @@
+register for events:
+  title: 'Register for events'
+  description: 'Allows users to register for events.'
+
+view event_registration:
+  title: 'View event registrations'
+  description: 'View the list of registrations for events.'
+
+cancel event_registration:
+  title: 'Cancel event registrations'
+  description: 'Allows users with this permission to cancel event registrations.'
+
+administer event_registration:
+  title: 'Administer event registrations'
+  description: 'Full administrative access to event registrations.'
+  restrict access: true

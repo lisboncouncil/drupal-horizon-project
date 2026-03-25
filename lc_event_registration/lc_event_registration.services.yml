@@ -1,0 +1,9 @@
+services:
+  logger.channel.lc_event_registration:
+    parent: logger.channel_base
+    arguments: ['lc_event_registration']
+
+
+  lc_event_registration.manager:
+    class: Drupal\lc_event_registration\Service\RegistrationManager
+    arguments: ['@entity_type.manager', '@database', '@logger.channel.lc_event_registration', '@plugin.manager.mail', '@config.factory', '@password_generator']

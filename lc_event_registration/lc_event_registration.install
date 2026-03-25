@@ -1,0 +1,410 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for lc_event_registration.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_install().
+ */
+function lc_event_registration_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+  _lc_event_registration_add_event_fields();
+}
+
+/**
+ * Implements hook_modules_installed().
+ *
+ * Adds registration fields if lc_events is installed after this module.
+ */
+function lc_event_registration_modules_installed($modules) {
+  if (in_array('lc_events', $modules)) {
+    _lc_event_registration_add_event_fields();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Removes registration fields from the event node type.
+ */
+function lc_event_registration_uninstall($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  $field_names = [
+    'field_registration_enabled',
+    'field_registration_capacity',
+    'field_registration_fields',
+    'field_registration_open_date',
+    'field_registration_close_date',
+    'field_registration_thank_you',
+    'field_registration_notify_emails',
+    'field_registration_intro',
+  ];
+
+  foreach ($field_names as $field_name) {
+    $field_config = FieldConfig::loadByName('node', 'event', $field_name);
+    if ($field_config) {
+      $field_config->delete();
+    }
+    $field_storage = FieldStorageConfig::loadByName('node', $field_name);
+    if ($field_storage) {
+      $field_storage->delete();
+    }
+  }
+}
+
+/**
+ * Add registration open/close date fields to the event node type.
+ */
+function lc_event_registration_update_10001() {
+  _lc_event_registration_add_event_fields();
+}
+
+/**
+ * Add registration settings fields to the event node type.
+ */
+function _lc_event_registration_add_event_fields() {
+  // Only proceed if the event node type exists (i.e. lc_events is installed).
+  $node_type = \Drupal::entityTypeManager()
+    ->getStorage('node_type')
+    ->load('event');
+  if (!$node_type) {
+    return;
+  }
+
+  // Field: Registration enabled (boolean).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_enabled')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_enabled',
+      'entity_type' => 'node',
+      'type' => 'boolean',
+      'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_enabled')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_enabled',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Enable online registration',
+      'required' => FALSE,
+      'settings' => [
+        'on_label' => 'Enabled',
+        'off_label' => 'Disabled',
+      ],
+    ])->save();
+  }
+
+  // Field: Registration capacity (integer).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_capacity')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_capacity',
+      'entity_type' => 'node',
+      'type' => 'integer',
+      'cardinality' => 1,
+      'settings' => [
+        'unsigned' => TRUE,
+      ],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_capacity')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_capacity',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Maximum registrations',
+      'description' => 'Set to 0 or leave empty for unlimited registrations.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Field: Required registration fields (list_string, multiple).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_fields')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_fields',
+      'entity_type' => 'node',
+      'type' => 'list_string',
+      'cardinality' => -1,
+      'settings' => [
+        'allowed_values' => [
+          'nationality' => 'Nationality',
+          'date_of_birth' => 'Date of birth',
+          'document_type' => 'Document type',
+          'document_number' => 'Document number',
+          'document_expiry_date' => 'Document expiry date',
+          'organisation' => 'Organisation / Company',
+          'mobile_number' => 'Mobile number',
+          'participation_mode' => 'Participation mode (In Person / Online)',
+          'lunch_attendance' => 'Lunch attendance',
+          'photo_consent' => 'Consent to photos and videos',
+        ],
+      ],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_fields')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_fields',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Required registration fields',
+      'description' => 'Select which optional fields are required for registration.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Field: Registration open date (datetime, date only).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_open_date')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_open_date',
+      'entity_type' => 'node',
+      'type' => 'datetime',
+      'cardinality' => 1,
+      'settings' => [
+        'datetime_type' => 'date',
+      ],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_open_date')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_open_date',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Registration opens',
+      'description' => 'Date from which registration is open. Leave empty for immediate opening.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Field: Registration close date (datetime, date only).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_close_date')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_close_date',
+      'entity_type' => 'node',
+      'type' => 'datetime',
+      'cardinality' => 1,
+      'settings' => [
+        'datetime_type' => 'date',
+      ],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_close_date')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_close_date',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Registration closes',
+      'description' => 'Date after which registration is closed. Leave empty for no closing date.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Field: Thank you message (text_long with format).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_thank_you')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_thank_you',
+      'entity_type' => 'node',
+      'type' => 'text_long',
+      'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_thank_you')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_thank_you',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Thank you message',
+      'description' => 'Custom message shown on the registration confirmation page. Leave empty for a default message.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Field: Registration intro text (text_long with format).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_intro')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_intro',
+      'entity_type' => 'node',
+      'type' => 'text_long',
+      'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_intro')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_intro',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Registration form intro text',
+      'description' => 'Text shown above the registration form. Leave empty for no intro text.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Field: Notification email addresses (string).
+  if (!FieldStorageConfig::loadByName('node', 'field_registration_notify_emails')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_registration_notify_emails',
+      'entity_type' => 'node',
+      'type' => 'string',
+      'cardinality' => 1,
+      'settings' => [
+        'max_length' => 1024,
+      ],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'event', 'field_registration_notify_emails')) {
+    FieldConfig::create([
+      'field_name' => 'field_registration_notify_emails',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Notification email addresses',
+      'description' => 'Email addresses to notify when a new registration is received. Separate multiple addresses with commas.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Update form display to add the fields.
+  $form_display = \Drupal::entityTypeManager()
+    ->getStorage('entity_form_display')
+    ->load('node.event.default');
+
+  if ($form_display) {
+    $form_display->setComponent('field_registration_enabled', [
+      'type' => 'boolean_checkbox',
+      'weight' => 50,
+      'region' => 'content',
+    ]);
+    $form_display->setComponent('field_registration_open_date', [
+      'type' => 'datetime_default',
+      'weight' => 51,
+      'region' => 'content',
+    ]);
+    $form_display->setComponent('field_registration_close_date', [
+      'type' => 'datetime_default',
+      'weight' => 52,
+      'region' => 'content',
+    ]);
+    $form_display->setComponent('field_registration_capacity', [
+      'type' => 'number',
+      'weight' => 53,
+      'region' => 'content',
+    ]);
+    $form_display->setComponent('field_registration_fields', [
+      'type' => 'options_buttons',
+      'weight' => 54,
+      'region' => 'content',
+    ]);
+    $form_display->setComponent('field_registration_thank_you', [
+      'type' => 'text_textarea',
+      'weight' => 55,
+      'region' => 'content',
+    ]);
+    $form_display->setComponent('field_registration_intro', [
+      'type' => 'text_textarea',
+      'weight' => 56,
+      'region' => 'content',
+    ]);
+    $form_display->setComponent('field_registration_notify_emails', [
+      'type' => 'string_textfield',
+      'weight' => 57,
+      'region' => 'content',
+    ]);
+    $form_display->save();
+  }
+}
+
+/**
+ * Add thank you message and notification email fields to events.
+ */
+function lc_event_registration_update_10002() {
+  _lc_event_registration_add_event_fields();
+}
+
+/**
+ * Add registration intro text field to events.
+ */
+function lc_event_registration_update_10003() {
+  _lc_event_registration_add_event_fields();
+}
+
+/**
+ * Add participation_mode and lunch_attendance fields; update allowed values.
+ */
+function lc_event_registration_update_10004() {
+  // Update the entity schema for new base fields.
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $entity_type = \Drupal::entityTypeManager()->getDefinition('event_registration');
+  $field_definitions = \Drupal\lc_event_registration\Entity\EventRegistration::baseFieldDefinitions($entity_type);
+
+  foreach (['participation_mode', 'lunch_attendance'] as $field_name) {
+    if (isset($field_definitions[$field_name])) {
+      $update_manager->installFieldStorageDefinition(
+        $field_name,
+        'event_registration',
+        'lc_event_registration',
+        $field_definitions[$field_name]
+      );
+    }
+  }
+
+  // Update allowed_values for field_registration_fields on the event node.
+  $field_storage = \Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_registration_fields');
+  if ($field_storage) {
+    $field_storage->setSetting('allowed_values', [
+      'nationality' => 'Nationality',
+      'date_of_birth' => 'Date of birth',
+      'document_type' => 'Document type',
+      'document_number' => 'Document number',
+      'document_expiry_date' => 'Document expiry date',
+      'organisation' => 'Organisation / Company',
+      'mobile_number' => 'Mobile number',
+      'participation_mode' => 'Participation mode (In Person / Online)',
+      'lunch_attendance' => 'Lunch attendance',
+    ]);
+    $field_storage->save();
+  }
+}
+
+/**
+ * Add photo_consent field to event_registration entity and allowed values.
+ */
+function lc_event_registration_update_10005() {
+  // Install the new base field on the entity.
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $entity_type = \Drupal::entityTypeManager()->getDefinition('event_registration');
+  $field_definitions = \Drupal\lc_event_registration\Entity\EventRegistration::baseFieldDefinitions($entity_type);
+
+  if (isset($field_definitions['photo_consent'])) {
+    $update_manager->installFieldStorageDefinition(
+      'photo_consent',
+      'event_registration',
+      'lc_event_registration',
+      $field_definitions['photo_consent']
+    );
+  }
+
+  // Add photo_consent to the allowed values for field_registration_fields.
+  $field_storage = \Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_registration_fields');
+  if ($field_storage) {
+    $field_storage->setSetting('allowed_values', [
+      'nationality' => 'Nationality',
+      'date_of_birth' => 'Date of birth',
+      'document_type' => 'Document type',
+      'document_number' => 'Document number',
+      'document_expiry_date' => 'Document expiry date',
+      'organisation' => 'Organisation / Company',
+      'mobile_number' => 'Mobile number',
+      'participation_mode' => 'Participation mode (In Person / Online)',
+      'lunch_attendance' => 'Lunch attendance',
+      'photo_consent' => 'Consent to photos and videos',
+    ]);
+    $field_storage->save();
+  }
+}

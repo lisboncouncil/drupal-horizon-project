@@ -1,0 +1,43 @@
+{# Notification email body — rendered inside the email wrapper. #}
+
+{# Heading #}
+<tr>
+  <td style="padding: 30px 40px 10px;">
+    <p style="font-size: 20px; color: #1D1D1D; margin: 0 0 5px; font-weight: 600;">New Event Registration</p>
+    <p style="font-size: 15px; color: #555; margin: 0;">for <strong style="color: #0B4A89;">{{ event_title }}</strong></p>
+  </td>
+</tr>
+
+{# Registrant details #}
+<tr>
+  <td style="padding: 20px 40px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="font-size: 14px; color: #1D1D1D; background-color: #f8f9fa; border-radius: 8px;">
+      <tr>
+        <td style="padding: 16px 20px;">
+          <p style="margin: 0 0 8px;"><strong>Name:</strong> {{ first_name }} {{ last_name }}</p>
+          <p style="margin: 0 0 8px;"><strong>Email:</strong> {{ reg_email }}</p>
+          {% for field in optional_fields %}
+            <p style="margin: 0 0 8px;"><strong>{{ field.label }}:</strong> {{ field.value }}</p>
+          {% endfor %}
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+{# Registration count #}
+<tr>
+  <td style="padding: 0 40px 20px; font-size: 14px; color: #555;">
+    <p style="margin: 0;">
+      Total confirmed registrations: <strong>{{ count }}</strong>
+      {% if capacity > 0 %} / {{ capacity }}{% endif %}
+    </p>
+  </td>
+</tr>
+
+{# Admin link #}
+<tr>
+  <td style="padding: 0 40px 30px; text-align: center;">
+    <a href="{{ admin_url }}" style="display: inline-block; padding: 10px 24px; background-color: #5a9e56; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: 14px; font-weight: 600;">View all registrations</a>
+  </td>
+</tr>

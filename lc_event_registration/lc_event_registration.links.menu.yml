@@ -1,0 +1,6 @@
+lc_event_registration.settings:
+  title: 'Event Registration'
+  description: 'Configure email branding, Geoapify map key, GDPR consent text, and site base URL for LC Event Registration.'
+  parent: system.admin_config_services
+  route_name: lc_event_registration.settings
+  weight: 10

@@ -1,0 +1,28 @@
+lc_event_registration.settings:
+  type: config_object
+  label: 'LC Event Registration settings'
+  mapping:
+    email_logo_fid:
+      type: integer
+      label: 'Email logo file ID'
+      nullable: true
+    geoapify_api_key:
+      type: string
+      label: 'Geoapify API key'
+      nullable: true
+    consent_gdpr_text:
+      type: string
+      label: 'GDPR consent checkbox text'
+    email_primary_color:
+      type: string
+      label: 'Email primary colour (hex)'
+    email_secondary_color:
+      type: string
+      label: 'Email secondary colour (hex)'
+    privacy_url:
+      type: string
+      label: 'Privacy policy URL path'
+    site_base_url:
+      type: string
+      label: 'Site base URL override'
+      nullable: true

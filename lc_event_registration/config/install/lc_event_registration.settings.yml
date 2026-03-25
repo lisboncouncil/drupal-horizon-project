@@ -1,0 +1,7 @@
+email_logo_fid: null
+geoapify_api_key: null
+consent_gdpr_text: 'I agree that the COcyber Consortium may process my personal data for the purpose of project-related communications, including events invitations. This processing will be carried out in accordance with the General Data Protection Regulation (GDPR), and I understand that I have the right to withdraw my consent at any time. For any information related to the handling of your data, you can contact the COcyber coordinator EIT Digital at <a href="mailto:alessandra.zini@eitdigital.eu">alessandra.zini@eitdigital.eu</a>.'
+email_primary_color: '#0B4A89'
+email_secondary_color: '#5a9e56'
+privacy_url: '/privacy'
+site_base_url: ''
