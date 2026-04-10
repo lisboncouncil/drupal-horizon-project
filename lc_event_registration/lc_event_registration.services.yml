@@ -6,4 +6,4 @@ services:
 
   lc_event_registration.manager:
     class: Drupal\lc_event_registration\Service\RegistrationManager
-    arguments: ['@entity_type.manager', '@database', '@logger.channel.lc_event_registration', '@plugin.manager.mail', '@config.factory', '@password_generator']
+    arguments: ['@entity_type.manager', '@database', '@logger.channel.lc_event_registration', '@plugin.manager.mail', '@config.factory', '@password_generator', '@renderer']
