@@ -7,7 +7,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Password\PasswordGeneratorInterface;
-use Drupal\Core\Site\Settings;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\lc_event_registration\Entity\EventRegistration;
 use Drupal\node\NodeInterface;
@@ -42,7 +42,8 @@ class RegistrationManager {
     protected LoggerInterface $logger,
     protected MailManagerInterface $mail_manager,
     protected ConfigFactoryInterface $config_factory,
-    protected PasswordGeneratorInterface $password_generator
+    protected PasswordGeneratorInterface $password_generator,
+    protected RendererInterface $renderer,
   ) {}
 
   /**
@@ -468,7 +469,7 @@ class RegistrationManager {
    * Render a Twig template to a string.
    */
   protected function render_template(array $render_array): string {
-    return (string) \Drupal::service('renderer')->renderPlain($render_array);
+    return (string) $this->renderer->renderInIsolation($render_array);
   }
 
   /**

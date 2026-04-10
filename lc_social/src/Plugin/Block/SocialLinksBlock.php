@@ -21,7 +21,7 @@ class SocialLinksBlock extends BlockBase {
   /**
    * {@inheritdoc}
    */
-  public function defaultConfiguration() {
+  public function defaultConfiguration(): array {
     return [
       'email' => '',
       'twitter' => '',
@@ -29,7 +29,7 @@ class SocialLinksBlock extends BlockBase {
       'youtube' => '',
       'mastodon' => '',
       'facebook' => '',
-      'instagram' => ''
+      'instagram' => '',
     ];
   }
 
@@ -37,7 +37,7 @@ class SocialLinksBlock extends BlockBase {
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build(): array {
     $config = $this->getConfiguration();
     
     $data = [
@@ -53,18 +53,18 @@ class SocialLinksBlock extends BlockBase {
     return [
       '#theme' => 'social_links',
       '#data' => $data,
-      '#attached' => array(
-        'library' => array(
+      '#attached' => [
+        'library' => [
           'lc_social/social-links',
-        )
-      )
+        ],
+      ],
     ];
   }
 
   /**
   * {@inheritdoc}
   */
-  public function blockForm($form, FormStateInterface $form_state) {
+  public function blockForm($form, FormStateInterface $form_state): array {
     $form['email'] = [
       '#type' => 'textfield',
       '#title' => "Email",
@@ -114,7 +114,7 @@ class SocialLinksBlock extends BlockBase {
     /**
   * {@inheritdoc}
   */
-  public function blockSubmit($form, FormStateInterface $form_state) {
+  public function blockSubmit($form, FormStateInterface $form_state): void {
     $values = $form_state->getValues();
     $this->configuration['email'] = $values['email'];
     $this->configuration['twitter'] = $values['twitter'];
