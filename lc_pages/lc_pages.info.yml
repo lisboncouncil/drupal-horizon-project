@@ -2,7 +2,7 @@ name: Horizon Default pages
 description: Creates the common pages for the Lisbon Council Horizon's websites
 package: LC
 type: module
-version: 1.1
+version: "1.1"
 dependencies:
   - drupal:config
   - drupal:system
