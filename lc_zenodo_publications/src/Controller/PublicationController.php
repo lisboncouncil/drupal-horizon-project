@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class PublicationController extends ControllerBase {
 
   public function __construct(
-    protected ConfigFactoryInterface $configFactory,
-    protected ClientInterface $httpClient,
+    protected ConfigFactoryInterface $config_factory,
+    protected ClientInterface $http_client,
   ) {}
 
   public static function create(ContainerInterface $container): static {
@@ -22,13 +22,13 @@ class PublicationController extends ControllerBase {
   }
 
   public function listPublications(): array {
-    $config = $this->configFactory->get('lc_zenodo_publications.settings');
+    $config = $this->config_factory->get('lc_zenodo_publications.settings');
     $size = $config->get('size');
     $community = $config->get('community');
     $path = "https://zenodo.org/api/records?page=1&size=$size&communities=$community&sort=mostrecent";
     $path_page = "https://zenodo.org/communities/$community/records?q=&l=list&p=1&s=10&sort=newest";
 
-    $response = $this->httpClient->get($path);
+    $response = $this->http_client->get($path);
     $data = json_decode($response->getBody()->getContents(), TRUE);
 
 
