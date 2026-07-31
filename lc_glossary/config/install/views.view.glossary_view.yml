@@ -341,7 +341,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: false
-          content: "<h2 class=\"visually-hidden\">Glossary about project and his topics</h2>\r\nA short glossary of key words and acronyms used the project.\r\n<hr />""
+          content: "<h2 class=\"visually-hidden\">Glossary about project and his topics</h2>\r\nA short glossary of key words and acronyms used the project.\r\n<hr />"
           tokenize: false
       footer: {  }
       display_extenders: {  }

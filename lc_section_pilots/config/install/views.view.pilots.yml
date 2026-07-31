@@ -465,7 +465,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
-       defaults:
+      defaults:
         header: false
       header:
         area_text_custom:

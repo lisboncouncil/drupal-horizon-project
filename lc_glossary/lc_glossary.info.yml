@@ -3,7 +3,10 @@ description: Glossary of the Topic, Useful for People and Search Engines
 package: LC
 type: module
 version: "1.0"
-core_version_requirement: ^9.4 || ^10 || ^11
-dependencies: 
-  - views
+core_version_requirement: '^10.3 || ^11'
+dependencies:
+  - advanced_text_formatter
   - ds
+  - menu_ui
+  - path
+  - views

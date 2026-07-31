@@ -2,4 +2,4 @@ name: LC Social
 type: module
 description: Provide Social Block for footer
 package: LC
-core_version_requirement: ^9.4 || ^10 || ^11
+core_version_requirement: '^10.3 || ^11'

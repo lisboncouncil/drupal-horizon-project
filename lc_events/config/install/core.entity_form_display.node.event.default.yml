@@ -14,19 +14,12 @@ dependencies:
     - node.type.event
   module:
     - address
-    - field_layout
     - image
-    - layout_discovery
     - link
     - path
     - scheduler
     - smart_date
     - text
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.event.default
 targetEntityType: node
 bundle: event

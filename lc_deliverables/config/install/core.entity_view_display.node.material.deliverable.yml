@@ -14,7 +14,6 @@ dependencies:
     - advanced_text_formatter
     - ds
     - empty_fields
-    - field_formatter_class
     - file
     - user
 third_party_settings:
@@ -89,8 +88,6 @@ content:
         handler: text
         settings:
           empty_text: TEST-EMPTY
-      field_formatter_class:
-        class: ''
       ds:
         ft:
           id: default

@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.glossary.field_glossary_related_content
     - node.type.glossary
   module:
-    - layout_discovery
     - path
     - text
 id: node.glossary.default
