@@ -23,6 +23,7 @@ function lc_events_install($is_syncing) {
 
 		// Get the list of terms for the vocabulary.
 		$term_ids = $term_storage->getQuery()
+			->accessCheck(FALSE)
 			->condition('vid', $vocabulary->id())
 			->execute();
 
