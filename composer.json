@@ -1,0 +1,10 @@
+{
+    "name": "lisboncouncil/drupal-horizon-project",
+    "description": "Lisbon Council boilerplate modules (lc_*) for Horizon project websites",
+    "type": "drupal-custom-module",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://github.com/lisboncouncil/drupal-horizon-project",
+    "require": {
+        "composer/installers": "^2.0"
+    }
+}
