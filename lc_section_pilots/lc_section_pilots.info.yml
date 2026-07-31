@@ -3,9 +3,11 @@ description: Note type, views and role for the project Pilots.
 package: LC
 type: module
 version: "1.0"
-core_version_requirement: ^9.4 || ^10 || ^11
-dependencies: 
-  - image
-  - views
-  - ds
+core_version_requirement: '^10.3 || ^11'
+dependencies:
   - advanced_text_formatter
+  - ds
+  - image
+  - menu_ui
+  - path
+  - views

@@ -63,9 +63,6 @@ third_party_settings:
             lb: ''
             lb-col: false
             classes: {  }
-  layout_builder:
-    enabled: false
-    allow_custom: false
   field_group:
     group_row:
       children:
@@ -160,8 +157,6 @@ content:
         decimals: 2
         suffix: h
     third_party_settings:
-      field_formatter_class:
-        class: ''
       ds:
         ft:
           id: default
@@ -180,8 +175,6 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings:
-      field_formatter_class:
-        class: ''
       ds:
         ft:
           id: default

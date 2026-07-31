@@ -10,7 +10,6 @@ dependencies:
     - advanced_text_formatter
     - ds
     - image
-    - layout_builder
     - user
 third_party_settings:
   ds:
@@ -41,9 +40,6 @@ third_party_settings:
         weight: 0
         label: hidden
         formatter: default
-  layout_builder:
-    enabled: false
-    allow_custom: false
 id: node.campaign.teaser
 targetEntityType: node
 bundle: campaign
