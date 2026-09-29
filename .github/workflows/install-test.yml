@@ -1,0 +1,59 @@
+name: Install test
+
+# Installs every LC module on a fresh Drupal site with the standard profile,
+# one at a time and all together, on the current Drupal 11 release and on the
+# development branch of the next one: core changes that break the modules
+# (like the removal of article/page from the standard profile in 11.4) show
+# up here before the next website is started.
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Mondays at 06:17 UTC.
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  install:
+    name: Drupal ${{ matrix.drupal }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - drupal: '^11'
+            stability: stable
+          - drupal: '11.x-dev'
+            stability: dev
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: lc
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, pdo_sqlite, sqlite3
+          tools: composer:v2
+          coverage: none
+
+      - name: Create the Drupal project
+        run: |
+          composer create-project drupal/recommended-project site --no-install --no-interaction
+          cd site
+          composer config minimum-stability ${{ matrix.stability }}
+          composer config prefer-stable true
+          composer config repositories.lc '{"type": "path", "url": "../lc", "options": {"symlink": false}}'
+          composer require --no-update \
+            "drupal/core-recommended:${{ matrix.drupal }}" \
+            "drupal/core-composer-scaffold:${{ matrix.drupal }}" \
+            "drupal/core-project-message:${{ matrix.drupal }}" \
+            drush/drush \
+            "lisboncouncil/drupal-horizon-project:*@dev" \
+            drupal/geocoder drupal/geofield drupal/leaflet geocoder-php/nominatim-provider
+          composer update --no-interaction --no-progress
+
+      - name: Install the LC modules
+        run: lc/scripts/install-test.sh site
