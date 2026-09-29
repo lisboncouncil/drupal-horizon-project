@@ -7,8 +7,6 @@ dependencies:
     - node.type.material
     - system.menu.main
     - taxonomy.vocabulary.material_type
-  content:
-    - 'taxonomy_term:material_type:699f21e0-843b-47dd-98d1-0037ce69247a'
   module:
     - file
     - node
@@ -307,8 +305,7 @@ display:
           admin_label: ''
           plugin_id: taxonomy_index_tid
           operator: or
-          value:
-            45: 45
+          value: {  }
           group: 1
           exposed: false
           expose:

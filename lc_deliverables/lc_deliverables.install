@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the lc_deliverables module.
+ */
+
+/**
+ * The material type listed by the public_deliverables view.
+ */
+const LC_DELIVERABLES_PUBLIC_TYPE = 'Deliverable';
+
+/**
+ * Implements hook_install().
+ *
+ * The public_deliverables view lists only the materials of type
+ * "Deliverable". Term IDs differ from site to site, so the term is created
+ * here and the view filter pointed to it.
+ */
+function lc_deliverables_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  $terms = $term_storage->loadByProperties([
+    'vid' => 'material_type',
+    'name' => LC_DELIVERABLES_PUBLIC_TYPE,
+  ]);
+  $term = reset($terms);
+  if (!$term) {
+    $term = $term_storage->create([
+      'vid' => 'material_type',
+      'name' => LC_DELIVERABLES_PUBLIC_TYPE,
+    ]);
+    $term->save();
+  }
+
+  $view = \Drupal::entityTypeManager()->getStorage('view')->load('public_deliverables');
+  if (!$view) {
+    return;
+  }
+
+  $display = &$view->getDisplay('default');
+  if (isset($display['display_options']['filters']['field_material_type_target_id'])) {
+    $display['display_options']['filters']['field_material_type_target_id']['value'] = [
+      $term->id() => $term->id(),
+    ];
+    $view->save();
+  }
+}
