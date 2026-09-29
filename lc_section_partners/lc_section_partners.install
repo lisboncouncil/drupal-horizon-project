@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the lc_section_partners module.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_install().
+ *
+ * The 'country' vocabulary ships in config/optional because older versions of
+ * lc_hcommon created it programmatically: on those sites it already exists
+ * and must not be recreated. For the same reason field_country does not
+ * declare the vocabulary as a config dependency in its YAML; the field is
+ * re-saved here so that Drupal records the dependency now that the
+ * vocabulary exists.
+ */
+function lc_section_partners_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  _lc_section_partners_create_country_terms();
+
+  $field = FieldConfig::loadByName('node', 'partner', 'field_country');
+  if ($field) {
+    $field->save();
+  }
+}
+
+/**
+ * Populates the 'country' vocabulary with the EU27 countries, if empty.
+ */
+function _lc_section_partners_create_country_terms() {
+  $vid = 'country';
+
+  $entity_type_manager = \Drupal::entityTypeManager();
+  if (!$entity_type_manager->getStorage('taxonomy_vocabulary')->load($vid)) {
+    return;
+  }
+
+  $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+  $existing = $term_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('vid', $vid)
+    ->count()
+    ->execute();
+  if ($existing) {
+    return;
+  }
+
+  $countries = [
+    'Austria',
+    'Belgium',
+    'Bulgaria',
+    'Croatia',
+    'Cyprus',
+    'Czechia',
+    'Denmark',
+    'Estonia',
+    'Finland',
+    'France',
+    'Germany',
+    'Greece',
+    'Hungary',
+    'Ireland',
+    'Italy',
+    'Latvia',
+    'Lithuania',
+    'Luxembourg',
+    'Malta',
+    'Netherlands',
+    'Poland',
+    'Portugal',
+    'Romania',
+    'Slovakia',
+    'Slovenia',
+    'Spain',
+    'Sweden',
+  ];
+
+  foreach ($countries as $weight => $country) {
+    $term_storage->create([
+      'name' => $country,
+      'vid' => $vid,
+      'weight' => $weight,
+    ])->save();
+  }
+}

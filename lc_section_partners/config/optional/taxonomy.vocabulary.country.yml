@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Country
+vid: country
+description: 'EU27 Countries'
+weight: 0
+new_revision: false
