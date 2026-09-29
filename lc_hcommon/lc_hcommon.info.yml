@@ -2,11 +2,14 @@ name: Horizon Common Module
 description: Orchestrate the installation of common elements for the Lisbon Council Horizon's websites
 package: LC
 type: module
-version: "1.0"
+version: "1.1"
 core_version_requirement: '^10.3 || ^11'
 dependencies:
-  - responsive_image
-  - taxonomy
-  - image
-  - node
-  - views
+  - lc_base
+  - drupal:image
+  - drupal:menu_link_content
+  - drupal:node
+  - drupal:path
+  - drupal:text
+  - drupal:user
+  - drupal:views

@@ -1,210 +1,162 @@
 <?php
 
-use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
+/**
+ * @file
+ * Install, update and uninstall functions for the lc_hcommon module.
+ */
+
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements hook_install().
  *
- * Perform actions to set up the site for this profile.
- *
- * @see system_install()
+ * The 'page' and 'article' content types ship in config/optional, so they
+ * already exist when this runs: either created by this module (fresh Drupal
+ * 11.4+ site) or pre-existing (site created with an older standard profile).
  */
-function lc_hcommon_install() {
+function lc_hcommon_install($is_syncing) {
+  // Content is not created while importing configuration.
+  if ($is_syncing) {
+    return;
+  }
 
-  // Enable and disable modules:
   _lc_hcommon_manage_modules();
-
-  // Create and populate the vocabulary.
-  _lc_hcommon_create_country_terms();
-
-  // Create menu entries
-  // _lc_hcommon_create_menu_entries();
   _lc_hcommon_create_empty_nodes();
-
 }
 
 /**
- * Create and install new vocabulary with terms.
- */
-function _lc_hcommon_create_country_terms() {
-
-    $vid = "country";
-    $name = "Country";
-
-    $vocabularies = \Drupal\taxonomy\Entity\Vocabulary::loadMultiple();
-
-    if (!isset($vocabularies[$vid])) {
-      $vocabulary = \Drupal\taxonomy\Entity\Vocabulary::create(array(
-              'vid' => $vid,
-              'description' => 'EU27 Countries',
-              'name' => $name,
-      ))->save();
-      
-      $categories = [
-          'Austria',
-          'Belgium',
-          'Bulgaria',
-          'Croatia',
-          'Cyprus',
-          'Czechia',
-          'Denmark',
-          'Estonia',
-          'Finland',
-          'France',
-          'Germany',
-          'Greece',
-          'Hungary',
-          'Ireland',
-          'Italy',
-          'Latvia',
-          'Lithuania',
-          'Luxembourg',
-          'Malta',
-          'Netherlands',
-          'Poland',
-          'Portugal',
-          'Romania',
-          'Slovakia',
-          'Slovenia',
-          'Spain',
-          'Sweden',
-      ];
-
-      foreach ($categories as $category) {
-          $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->create([
-                  'name' => $category,
-                  'vid' => $vid,
-              ])->save();
-      }
-    }
-    else {
-        \Drupal::messenger()->addMessage($name . ' vocabulary alredy exits');
-    }
-}
-
-/**
- * Create nodes and configure the menus.
+ * Creates the default pages and their menu links.
+ *
+ * Safe to run more than once: pages whose alias already exists and menu links
+ * that already exist are skipped.
  */
 function _lc_hcommon_create_empty_nodes() {
+  $uuid_about = 'dd944cfe-61b0-4b9b-a34b-9be7cd854d7c';
 
-  $UUID_ABOUT = 'dd944cfe-61b0-4b9b-a34b-9be7cd854d7c';
-  $UUID_OUTCOMES = 'd0044cfe-61b0-4b9b-a34b-9be7cd854d7c';
-
-  // Add the about link
-  $menu_link_about = Drupal\menu_link_content\Entity\MenuLinkContent::create([
-    'title' =>  'About',
-    'link' => 'internal:/',
-    'menu_name' => 'main',
-    'expanded' => TRUE,
-    'weight' => 1,
-    'uuid' => $UUID_ABOUT,
-  ]);
-  $menu_link_about->save();
+  $menu_link_storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $about = $menu_link_storage->loadByProperties(['uuid' => $uuid_about]);
+  $menu_link_about = reset($about);
+  if (!$menu_link_about) {
+    $menu_link_about = MenuLinkContent::create([
+      'title' => 'About',
+      'link' => 'internal:/',
+      'menu_name' => 'main',
+      'expanded' => TRUE,
+      'weight' => 1,
+      'uuid' => $uuid_about,
+    ]);
+    $menu_link_about->save();
+  }
   $parent_about = $menu_link_about->getPluginId();
 
   $pages = [
     'project-description' => [
       'title' => 'Description of the project',
-      'body'  => '',
-      'path'  => '/project-description',
-      'menu'  => 'main',
-      'parent'=> $parent_about,
+      'path' => '/project-description',
+      'menu' => 'main',
+      'parent' => $parent_about,
     ],
     'governance' => [
       'title' => 'Governance',
-      'body'  => '',
-      'path'  => '/governance',
-      'menu'  => 'main',
-      'parent'=> $parent_about,
+      'path' => '/governance',
+      'menu' => 'main',
+      'parent' => $parent_about,
     ],
     'contact' => [
       'title' => 'Contact',
-      'body'  => '',
-      'path'  => '/contact',
-      'menu'  => 'main',
-      'parent'=> NULL,
-      'weight'=> 10,
+      'path' => '/contact',
+      'menu' => 'main',
+      'parent' => NULL,
+      'weight' => 10,
     ],
     'opendata' => [
       'title' => 'Open data',
-      'body'  => '',
-      'path'  => '/open-data',
-      'menu'  => 'footer',
-      'parent'=> NULL,
+      'path' => '/open-data',
+      'menu' => 'footer',
+      'parent' => NULL,
     ],
     'outcomes' => [
       'title' => 'Outcomes',
-      'body'  => '',
-      'path'  => '/outcomes',
-      'menu'  => 'main',
-      'parent'=> NULL,
-      'weight'=> 3,
+      'path' => '/outcomes',
+      'menu' => 'main',
+      'parent' => NULL,
+      'weight' => 3,
     ],
-
   ];
 
+  $alias_repository = \Drupal::service('path_alias.repository');
   $k = 0;
 
-  foreach ( $pages as $node ) {
+  foreach ($pages as $page) {
+    $k++;
 
-    $new_page = \Drupal\node\Entity\Node::create([
+    if ($alias_repository->lookupByAlias($page['path'], 'en') || $alias_repository->lookupByAlias($page['path'], 'und')) {
+      continue;
+    }
+
+    $node = Node::create([
       'type' => 'page',
+      'title' => $page['title'],
       'uid' => 1,
       'status' => 1,
-      'path' => $node['path'],
+      'path' => ['alias' => $page['path']],
     ]);
-    $new_page->set('title', $node['title']);
-    $new_page->set('body', $node['body']);
-    $new_page->enforceIsNew();
-    $new_page->save();
+    $node->save();
 
-    
-    // Add the link menu
-    $menu_link = Drupal\menu_link_content\Entity\MenuLinkContent::create([
-      'title' =>  $node['title'],
-      'link' => 'internal:/'.$node['path'],
-      'menu_name' => $node['menu'],
-      'expanded' => TRUE,
-      'weight' => $node['weight'] ?? ($k + 1),
-      'parent' => $node['parent'],
-    ]);
-    $menu_link->save();
-
-    $k++;
+    _lc_hcommon_add_menu_link($page['title'], $page['path'], $page['menu'], $page['weight'] ?? $k, $page['parent']);
   }
 
-  // Add a last element in the footer for contact page (also in main)
+  // The contact page is linked from the footer too.
+  _lc_hcommon_add_menu_link($pages['contact']['title'], $pages['contact']['path'], 'footer', 10, NULL);
+}
 
-  // Add the link menu
-  $menu_link = Drupal\menu_link_content\Entity\MenuLinkContent::create([
-    'title' =>  $pages['contact']['title'],
-    'link' => 'internal:/'.$pages['contact']['path'],
-    'menu_name' => 'footer',
+/**
+ * Adds a menu link unless the same link already exists in the menu.
+ */
+function _lc_hcommon_add_menu_link($title, $path, $menu_name, $weight, $parent) {
+  $storage = \Drupal::entityTypeManager()->getStorage('menu_link_content');
+  $uri = 'internal:' . $path;
+
+  $existing = $storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('menu_name', $menu_name)
+    ->condition('link.uri', $uri)
+    ->count()
+    ->execute();
+  if ($existing) {
+    return;
+  }
+
+  $storage->create([
+    'title' => $title,
+    'link' => $uri,
+    'menu_name' => $menu_name,
     'expanded' => TRUE,
-    'weight' => 10,
-    'parent' => NULL,
-  ]);
-  $menu_link->save();
-
+    'weight' => $weight,
+    'parent' => $parent,
+  ])->save();
 }
 
 /**
  * Pre-install or uninstall some contrib modules.
  */
 function _lc_hcommon_manage_modules() {
+  $enable = [];
 
-  $enable=[];
-
-  $disable=[
+  $disable = [
     'contact',
   ];
 
-  if(count($enable)>0){
+  $module_handler = \Drupal::moduleHandler();
+
+  $enable = array_filter($enable, fn($module) => !$module_handler->moduleExists($module));
+  if ($enable) {
     \Drupal::service('module_installer')->install($enable);
   }
 
-  if(count($disable)>0){
+  $disable = array_filter($disable, fn($module) => $module_handler->moduleExists($module));
+  if ($disable) {
     \Drupal::service('module_installer')->uninstall($disable);
   }
-
 }
