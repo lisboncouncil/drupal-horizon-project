@@ -1,9 +1,7 @@
-uuid: f238aaf6-41a9-43de-a769-98707464a717
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.body
     - node.type.glossary
   module:
     - text

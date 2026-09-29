@@ -1,5 +1,5 @@
 lc_pages.settings:
-  type: mapping
+  type: config_object
   label: Variable Settings of module Lisbon Council Horizon Pages
   mapping:
     data_owner:
@@ -20,3 +20,6 @@ lc_pages.settings:
     additional_issues:
       type: string
       label: 'HTML (list) of the issues specific for this website'
+    additional_issues_format:
+      type: string
+      label: 'Text format of the additional issues'

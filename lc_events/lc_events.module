@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Optional integrations of the Event content type.
+ *
+ * Contrib modules that are nice to have but not required are wired in here
+ * when they are installed, before or after lc_events:
+ * - scheduler: publish/unpublish on a date.
+ * pathauto, metatag and calendar_view ship their config in config/optional
+ * instead, which Drupal installs on its own when the module is present.
+ */
+
+/**
+ * Implements hook_modules_installed().
+ */
+function lc_events_modules_installed($modules, $is_syncing) {
+  if (!$is_syncing) {
+    lc_events_apply_optional_integrations($modules);
+  }
+}
+
+/**
+ * Configures the event content type for the given optional modules.
+ *
+ * @param string[] $modules
+ *   Modules to integrate with, when they are installed.
+ */
+function lc_events_apply_optional_integrations(array $modules) {
+  $module_handler = \Drupal::moduleHandler();
+
+  if (in_array('scheduler', $modules, TRUE) && $module_handler->moduleExists('scheduler')) {
+    $node_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('event');
+    if ($node_type) {
+      $settings = [
+        'expand_fieldset' => 'when_required',
+        'fields_display_mode' => 'vertical_tab',
+        'publish_enable' => TRUE,
+        'publish_past_date' => 'publish',
+        'publish_past_date_created' => FALSE,
+        'publish_required' => FALSE,
+        'publish_revision' => FALSE,
+        'publish_touch' => FALSE,
+        'show_message_after_update' => TRUE,
+        'unpublish_enable' => FALSE,
+        'unpublish_required' => FALSE,
+        'unpublish_revision' => FALSE,
+      ];
+      foreach ($settings as $key => $value) {
+        $node_type->setThirdPartySetting('scheduler', $key, $value);
+      }
+      $node_type->save();
+    }
+    _lc_events_add_scheduler_widgets('event');
+  }
+}
+
+/**
+ * Adds the scheduler widgets to the default form display of a bundle.
+ */
+function _lc_events_add_scheduler_widgets($bundle) {
+  $form_display = \Drupal::service('entity_display.repository')->getFormDisplay('node', $bundle, 'default');
+  $form_display
+    ->setComponent('scheduler_settings', ['weight' => 6, 'region' => 'content'])
+    ->setComponent('publish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 8, 'region' => 'content'])
+    ->setComponent('unpublish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 9, 'region' => 'content'])
+    ->save();
+}

@@ -1,0 +1,13 @@
+lc_zenodo_publications.settings:
+  type: config_object
+  label: 'Zenodo Publications settings'
+  mapping:
+    size:
+      type: integer
+      label: 'Number of publications to show'
+    community:
+      type: string
+      label: 'Zenodo community identifier'
+    update_interval:
+      type: string
+      label: 'Update interval'

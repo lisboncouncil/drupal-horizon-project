@@ -12,6 +12,10 @@ use Drupal\taxonomy\Entity\Vocabulary;
  */
 function lc_events_install($is_syncing) {
 
+	if (!$is_syncing) {
+		lc_events_apply_optional_integrations(array_keys(\Drupal::moduleHandler()->getModuleList()));
+	}
+
 	$vocabulary_machine_name = 'event_category';
 
 	// Load the vocabulary by machine name.

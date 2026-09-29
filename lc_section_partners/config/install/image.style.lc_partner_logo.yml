@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: lc_partner_logo
+label: 'Partner logo (max 325×325)'
+effects:
+  a5b3e7c1-2f4d-4b8e-9c61-7d2e0f8a4b13:
+    uuid: a5b3e7c1-2f4d-4b8e-9c61-7d2e0f8a4b13
+    id: image_scale
+    weight: 1
+    data:
+      width: 325
+      height: 325
+      upscale: false

@@ -8,16 +8,15 @@ dependencies:
     - field.field.node.event.field_event_agenda
     - field.field.node.event.field_event_category
     - field.field.node.event.field_event_date
-    - field.field.node.event.field_event_geolocation
     - field.field.node.event.field_event_image
     - field.field.node.event.field_event_url
+    - image.style.wide
     - node.type.event
-    - responsive_image.styles.wide
   module:
     - address
     - ds
     - field_group
-    - responsive_image
+    - image
     - smart_date
     - user
 third_party_settings:
@@ -167,10 +166,10 @@ content:
     weight: 3
     region: ds_content
   field_event_image:
-    type: responsive_image
+    type: image
     label: hidden
     settings:
-      responsive_image_style: wide
+      image_style: wide
       image_link: content
       image_loading:
         attribute: lazy
@@ -188,7 +187,6 @@ hidden:
   body: true
   field_event_agenda: true
   field_event_category: true
-  field_event_geolocation: true
   field_event_url: true
   links: true
   node_read_time: true

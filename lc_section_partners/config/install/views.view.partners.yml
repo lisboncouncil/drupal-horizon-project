@@ -2,11 +2,10 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.body
     - field.storage.node.field_partner_logo
     - field.storage.node.field_partners_logo_mono
     - field.storage.node.field_role_in_the_project
-    - image.style.max_325x325
+    - image.style.lc_partner_logo
     - image.style.medium
     - node.type.partner
     - system.menu.main
@@ -507,7 +506,7 @@ display:
           type: image
           settings:
             image_link: ''
-            image_style: max_325x325
+            image_style: lc_partner_logo
             image_loading:
               attribute: lazy
           group_column: ''
@@ -573,7 +572,7 @@ display:
           type: image
           settings:
             image_link: ''
-            image_style: max_325x325
+            image_style: lc_partner_logo
             image_loading:
               attribute: lazy
           group_column: ''
@@ -588,18 +587,7 @@ display:
           field_api_classes: false
       defaults:
         fields: false
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
+      display_extenders: {  }
       block_description: 'Only parners logo'
     cache_metadata:
       max-age: -1
@@ -617,18 +605,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
+      display_extenders: {  }
       path: partners
       menu:
         type: normal

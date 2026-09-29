@@ -1,0 +1,159 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the lc_events_map module.
+ */
+
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+
+/**
+ * Implements hook_install().
+ *
+ * The event displays belong to lc_events, so the map is placed here rather
+ * than shipped as config. The Leaflet formatter is added with its default
+ * settings.
+ */
+function lc_events_map_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  $display_repository = \Drupal::service('entity_display.repository');
+
+  $view_display = $display_repository->getViewDisplay('node', 'event', 'default');
+  $view_display->setComponent('field_event_location', [
+    'type' => 'leaflet_formatter_default',
+    'label' => 'hidden',
+    'weight' => 6,
+  ]);
+  _lc_events_map_place_after_address($view_display);
+  $view_display->save();
+
+  // The location is geocoded from the address: editors do not fill it in.
+  $form_display = $display_repository->getFormDisplay('node', 'event', 'default');
+  $form_display->removeComponent('field_event_location')->save();
+
+  _lc_events_map_set_metatag_geo(TRUE);
+  _lc_events_map_set_user_agent();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function lc_events_map_uninstall($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+  _lc_events_map_set_metatag_geo(FALSE);
+
+  $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'event', 'default');
+  _lc_events_map_remove_from_layout($display);
+  $display->removeComponent('field_event_location')->save();
+}
+
+/**
+ * Puts the map right after the address in the DS region and field group.
+ */
+function _lc_events_map_place_after_address(EntityDisplayInterface $display) {
+  $insert_after_address = function (array $list) {
+    if (in_array('field_event_location', $list, TRUE)) {
+      return $list;
+    }
+    $position = array_search('field_event_address', $list, TRUE);
+    $position = $position === FALSE ? count($list) : $position + 1;
+    array_splice($list, $position, 0, ['field_event_location']);
+    return $list;
+  };
+
+  $ds_regions = $display->getThirdPartySetting('ds', 'regions');
+  if (isset($ds_regions['ds_content'])) {
+    $ds_regions['ds_content'] = $insert_after_address($ds_regions['ds_content']);
+    $display->setThirdPartySetting('ds', 'regions', $ds_regions);
+    $component = $display->getComponent('field_event_location');
+    $component['region'] = 'ds_content';
+    $display->setComponent('field_event_location', $component);
+  }
+
+  $group = $display->getThirdPartySetting('field_group', 'group_col_dx_event_detail');
+  if (isset($group['children'])) {
+    $group['children'] = $insert_after_address($group['children']);
+    $display->setThirdPartySetting('field_group', 'group_col_dx_event_detail', $group);
+  }
+}
+
+/**
+ * Removes the map from the DS region and the field group.
+ */
+function _lc_events_map_remove_from_layout(EntityDisplayInterface $display) {
+  $without_location = fn(array $list) => array_values(array_diff($list, ['field_event_location']));
+
+  $ds_regions = $display->getThirdPartySetting('ds', 'regions');
+  if (isset($ds_regions['ds_content'])) {
+    $ds_regions['ds_content'] = $without_location($ds_regions['ds_content']);
+    $display->setThirdPartySetting('ds', 'regions', $ds_regions);
+  }
+
+  $group = $display->getThirdPartySetting('field_group', 'group_col_dx_event_detail');
+  if (isset($group['children'])) {
+    $group['children'] = $without_location($group['children']);
+    $display->setThirdPartySetting('field_group', 'group_col_dx_event_detail', $group);
+  }
+}
+
+/**
+ * Adds or removes the coordinates in the schema.org Event location.
+ */
+function _lc_events_map_set_metatag_geo($add) {
+  if (!\Drupal::entityTypeManager()->hasDefinition('metatag_defaults')) {
+    return;
+  }
+  $defaults = \Drupal::entityTypeManager()->getStorage('metatag_defaults')->load('node__event');
+  if (!$defaults) {
+    return;
+  }
+
+  $tags = $defaults->get('tags');
+  if (empty($tags['schema_event_location'])) {
+    return;
+  }
+  $location = @unserialize($tags['schema_event_location'], ['allowed_classes' => FALSE]);
+  if (!is_array($location)) {
+    return;
+  }
+
+  if ($add) {
+    $location['geo'] = [
+      '@type' => 'GeoCoordinates',
+      'latitude' => '[node:field_event_location:lat]',
+      'longitude' => '[node:field_event_location:lon]',
+    ];
+  }
+  else {
+    unset($location['geo']);
+  }
+
+  $tags['schema_event_location'] = serialize($location);
+  $defaults->set('tags', $tags)->save();
+}
+
+/**
+ * Identifies the site in the Nominatim requests.
+ *
+ * The Nominatim usage policy requires a User-Agent that identifies the
+ * application: https://operations.osmfoundation.org/policies/nominatim/
+ */
+function _lc_events_map_set_user_agent() {
+  if (!\Drupal::entityTypeManager()->hasDefinition('geocoder_provider')) {
+    return;
+  }
+  $provider = \Drupal::entityTypeManager()->getStorage('geocoder_provider')->load('lc_nominatim');
+  if (!$provider) {
+    return;
+  }
+
+  $site = \Drupal::config('system.site');
+  $configuration = $provider->get('configuration');
+  $configuration['userAgent'] = sprintf('%s (%s)', $site->get('name'), $site->get('mail'));
+  $provider->set('configuration', $configuration)->save();
+}

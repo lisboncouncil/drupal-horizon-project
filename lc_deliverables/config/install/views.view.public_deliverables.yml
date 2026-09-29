@@ -7,8 +7,6 @@ dependencies:
     - node.type.material
     - system.menu.main
     - taxonomy.vocabulary.material_type
-  content:
-    - 'taxonomy_term:material_type:699f21e0-843b-47dd-98d1-0037ce69247a'
   module:
     - file
     - node
@@ -307,8 +305,7 @@ display:
           admin_label: ''
           plugin_id: taxonomy_index_tid
           operator: or
-          value:
-            45: 45
+          value: {  }
           group: 1
           exposed: false
           expose:
@@ -345,16 +342,12 @@ display:
           limit: true
           error_message: true
       style:
-        type: views_bootstrap_grid
+        type: default
         options:
+          grouping: {  }
           row_class: 'my-2 py-4 container border-bottom'
           default_row_class: true
           uses_fields: false
-          col_xs: none
-          col_sm: none
-          col_md: none
-          col_lg: none
-          col_xl: none
       row:
         type: 'entity:node'
         options:
@@ -399,23 +392,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
-        metatag_display_extender:
-          metatags:
-            title: 'Public Deliverables'
-            description: "List of the project's public deliverables available for the download."
-          tokenize: false
+      display_extenders: {  }
       path: materials/public-deliverables
       menu:
         type: normal

@@ -7,7 +7,7 @@ dependencies:
     - field.field.node.campaign.field_image
     - node.type.campaign
   module:
-    - advanced_text_formatter
+    - text
     - ds
     - image
     - user
@@ -46,32 +46,10 @@ bundle: campaign
 mode: teaser
 content:
   body:
-    type: advanced_text
+    type: text_summary_or_trimmed
     label: above
     settings:
-      trim_length: '600'
-      ellipsis: '1'
-      word_boundary: '1'
-      use_summary: '1'
-      filter: input
-      format: plain_text
-      allowed_html:
-        - a
-        - b
-        - br
-        - dd
-        - dl
-        - dt
-        - em
-        - i
-        - li
-        - ol
-        - p
-        - strong
-        - u
-        - ul
-      token_replace: 0
-      autop: 0
+      trim_length: 600
     third_party_settings:
       ds:
         ft:

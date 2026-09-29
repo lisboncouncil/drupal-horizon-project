@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Hooks of the lc_events_map module.
+ */
+
+/**
+ * Implements hook_modules_installed().
+ *
+ * The event metatag defaults of lc_events are optional config, created when
+ * metatag and schema_event are installed: add the coordinates to them if
+ * that happens after this module.
+ */
+function lc_events_map_modules_installed($modules, $is_syncing) {
+  if ($is_syncing || in_array('lc_events_map', $modules, TRUE)) {
+    return;
+  }
+  if (array_intersect(['metatag', 'schema_event', 'lc_events'], $modules)) {
+    \Drupal::moduleHandler()->loadInclude('lc_events_map', 'install');
+    _lc_events_map_set_metatag_geo(TRUE);
+  }
+}

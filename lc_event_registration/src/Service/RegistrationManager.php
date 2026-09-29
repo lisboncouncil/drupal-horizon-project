@@ -517,19 +517,29 @@ class RegistrationManager {
   }
 
   /**
-   * Get event coordinates from the geolocation field.
+   * Get event coordinates from the location field.
+   *
+   * Reads field_event_location (geofield, lc_events_map) and falls back to
+   * field_event_geolocation (geolocation), used by sites created before
+   * lc_events 1.2.
    */
   protected function get_event_coordinates(NodeInterface $event): ?array {
-    if (!$event->hasField('field_event_geolocation') || $event->get('field_event_geolocation')->isEmpty()) {
-      return NULL;
+    $sources = [
+      'field_event_location' => ['lat', 'lon'],
+      'field_event_geolocation' => ['lat', 'lng'],
+    ];
+    foreach ($sources as $field_name => [$lat_property, $lng_property]) {
+      if (!$event->hasField($field_name) || $event->get($field_name)->isEmpty()) {
+        continue;
+      }
+      $geo = $event->get($field_name)->first();
+      $lat = $geo->get($lat_property)->getValue();
+      $lng = $geo->get($lng_property)->getValue();
+      if (!empty($lat) && !empty($lng)) {
+        return ['lat' => (float) $lat, 'lng' => (float) $lng];
+      }
     }
-    $geo = $event->get('field_event_geolocation')->first();
-    $lat = $geo->get('lat')->getValue();
-    $lng = $geo->get('lng')->getValue();
-    if (empty($lat) || empty($lng)) {
-      return NULL;
-    }
-    return ['lat' => (float) $lat, 'lng' => (float) $lng];
+    return NULL;
   }
 
   /**

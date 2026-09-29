@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the lc_base module.
+ */
+
+use Drupal\Core\Config\FileStorage;
+
+/**
+ * Implements hook_install().
+ *
+ * Creates the shared node field storages when they are missing.
+ *
+ * They cannot be regular config/install files: on sites created before
+ * Drupal 11.4 they already exist, and Drupal refuses to install a module
+ * whose config/install collides with active configuration. Creating them here
+ * works on both kinds of site, and happens before the config of the LC modules
+ * that depend on lc_base is installed, even when they are installed together.
+ */
+function lc_base_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  lc_base_ensure_field_storages();
+}
+
+/**
+ * Creates the field storages shipped in config/optional, if missing.
+ */
+function lc_base_ensure_field_storages() {
+  $source = new FileStorage(\Drupal::service('extension.list.module')->getPath('lc_base') . '/config/optional');
+  $storage = \Drupal::entityTypeManager()->getStorage('field_storage_config');
+
+  foreach ($source->listAll('field.storage.') as $name) {
+    $values = $source->read($name);
+    if (!$storage->load($values['id'])) {
+      $storage->createFromStorageRecord($values)->save();
+    }
+  }
+}

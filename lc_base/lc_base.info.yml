@@ -1,0 +1,12 @@
+name: 'LC Base'
+description: 'Shared field storages (body, field_image) used by the LC modules. Needed since Drupal 11.4, whose standard profile no longer creates them.'
+package: LC
+type: module
+version: '1.0'
+core_version_requirement: '^10.3 || ^11'
+dependencies:
+  - drupal:field
+  - drupal:file
+  - drupal:image
+  - drupal:node
+  - drupal:text

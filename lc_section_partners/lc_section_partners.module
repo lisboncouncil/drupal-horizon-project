@@ -1,4 +1,51 @@
 <?php
+
 /**
- * Placeholder  for lc_section_partners.module.
+ * @file
+ * Hooks of the lc_section_partners module.
  */
+
+/**
+ * Administration bars and the permission that shows each of them.
+ *
+ * Drupal 11.4's standard profile ships navigation instead of toolbar: the
+ * role gets access to whichever is installed, without forcing either.
+ */
+const LC_SECTION_PARTNERS_ADMIN_BARS = [
+  'navigation' => 'access navigation',
+  'toolbar' => 'access toolbar',
+];
+
+/**
+ * Implements hook_modules_installed().
+ */
+function lc_section_partners_modules_installed($modules, $is_syncing) {
+  if (!$is_syncing) {
+    lc_section_partners_grant_admin_bar($modules);
+  }
+}
+
+/**
+ * Lets partner managers use the administration bar of the given modules.
+ *
+ * @param string[] $modules
+ *   Modules whose administration bar should be granted, when installed.
+ */
+function lc_section_partners_grant_admin_bar(array $modules) {
+  $role = \Drupal::entityTypeManager()->getStorage('user_role')->load('partner_manager');
+  if (!$role) {
+    return;
+  }
+
+  $module_handler = \Drupal::moduleHandler();
+  $changed = FALSE;
+  foreach (LC_SECTION_PARTNERS_ADMIN_BARS as $module => $permission) {
+    if (in_array($module, $modules, TRUE) && $module_handler->moduleExists($module) && !$role->hasPermission($permission)) {
+      $role->grantPermission($permission);
+      $changed = TRUE;
+    }
+  }
+  if ($changed) {
+    $role->save();
+  }
+}

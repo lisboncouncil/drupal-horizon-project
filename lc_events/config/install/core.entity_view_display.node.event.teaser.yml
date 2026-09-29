@@ -8,7 +8,6 @@ dependencies:
     - field.field.node.event.field_event_agenda
     - field.field.node.event.field_event_category
     - field.field.node.event.field_event_date
-    - field.field.node.event.field_event_geolocation
     - field.field.node.event.field_event_image
     - field.field.node.event.field_event_url
     - node.type.event
@@ -38,7 +37,6 @@ hidden:
   field_event_agenda: true
   field_event_category: true
   field_event_date: true
-  field_event_geolocation: true
   field_event_image: true
   field_event_url: true
   node_read_time: true

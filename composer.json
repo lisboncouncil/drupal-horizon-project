@@ -5,6 +5,24 @@
     "license": "GPL-2.0-or-later",
     "homepage": "https://github.com/lisboncouncil/drupal-horizon-project",
     "require": {
-        "composer/installers": "^2.0"
+        "composer/installers": "^2.0",
+        "drupal/core": "^10.3 || ^11",
+        "drupal/address": "^2",
+        "drupal/ds": "^3.22",
+        "drupal/empty_fields": "^1",
+        "drupal/field_group": "^3.6 || ^4",
+        "drupal/smart_date": "^4.2.1"
+    },
+    "suggest": {
+        "drupal/calendar_view": "^2, lc_events: calendar page of the events",
+        "drupal/geocoder": "^4.10, required by lc_events_map (event venue map)",
+        "drupal/geofield": "^1.47, required by lc_events_map",
+        "drupal/leaflet": "^10.3.4, required by lc_events_map",
+        "drupal/metatag": "^2, lc_events: meta tags of the events",
+        "drupal/pathauto": "^1.13, lc_events, lc_glossary: URL aliases",
+        "drupal/scheduler": "^2.2, lc_events, lc_deliverables: scheduled publishing",
+        "drupal/schema_metatag": "^3, lc_events: schema.org Event metadata (enable schema_event)",
+        "drupal/svg_image": "^3.1, lc_deliverables: SVG files in the material image",
+        "geocoder-php/nominatim-provider": "^5.7, required by lc_events_map (OpenStreetMap geocoding, no API key)"
     }
 }

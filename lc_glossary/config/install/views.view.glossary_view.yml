@@ -1,12 +1,10 @@
-uuid: b3bbc49a-6758-4ba4-8305-a7459864ef98
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.body
     - node.type.glossary
   module:
-    - advanced_text_formatter
+    - text
     - node
     - user
 id: glossary_view
@@ -205,31 +203,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: advanced_text
+          type: text_trimmed
           settings:
-            trim_length: '200'
-            ellipsis: 1
-            word_boundary: 1
-            use_summary: 0
-            token_replace: 1
-            filter: none
-            format: plain_text
-            allowed_html:
-              - a
-              - b
-              - br
-              - dd
-              - dl
-              - dt
-              - em
-              - i
-              - li
-              - ol
-              - p
-              - strong
-              - u
-              - ul
-            autop: 0
+            trim_length: 200
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -360,21 +336,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
-        metatag_display_extender:
-          metatags: {  }
-          tokenize: false
+      display_extenders: {  }
       path: glossary
     cache_metadata:
       max-age: -1

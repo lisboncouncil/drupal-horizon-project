@@ -1,100 +1,84 @@
-# Drupal boilerplate for Horizon Project's website
+# Drupal boilerplate for Horizon Project's websites
 
-This is a collection of modules and configuration useful for the creation of a new website.
-THe modules is organized with 
-- A first module **lc_hcommon** where are configured the predefined empty nodes of type page (governance, etc) and the menu configuration. The module also pre-install o uninstall some modules. Check the .install page for more details.
-- The **lc_pages** will install some common pages, like cookies and privacy.
-- The **lc_section_\*** will install a complete section, with content-type, roles, views, menu entries and permissions
+A collection of modules and configuration used to build a new Horizon
+project website of the Lisbon Council.
 
-## Content
+Requires Drupal 10.3 or later, and a site installed with the **standard**
+profile. Tested on Drupal 11.4.
 
-The modules will create:
+## Modules
 
-### Content-types
-- Pilot (pilot pages of the project)
-- WP (Work package)
-- Partner (Partners of the project)
+| Module | What it adds |
+|---|---|
+| `lc_base` | Shared `body` and `field_image` field storages. Needed since Drupal 11.4, whose standard profile no longer creates them. Installed automatically as a dependency. |
+| `lc_hcommon` | Basic page and News (`article`) content types, News view, default empty pages (project description, governance, contact, open data, outcomes) and the main and footer menu entries. Uninstalls the core `contact` module. |
+| `lc_pages` | Privacy, cookies, accessibility statement and "join the project" pages. |
+| `lc_section_partners` | Partner content type, partners view, Partner manager role, Country vocabulary with the EU27 countries. |
+| `lc_section_wp` | Work package content type and view, WP manager role. Requires `lc_section_partners`. |
+| `lc_section_pilots` | Pilot content type and view. Requires `lc_section_partners`. |
+| `lc_section_campaign` | Campaign content type and view. |
+| `lc_deliverables` | Material content type, Material type vocabulary, public deliverables page. |
+| `lc_events` | Event content type, event list and calendar, Event category vocabulary. |
+| `lc_events_map` | Map of the event venue: geocoded from the address with OpenStreetMap Nominatim and shown with Leaflet. No API key needed. Optional. |
+| `lc_event_registration` | Registration to events, with configurable fields, automatic user creation and capacity management. |
+| `lc_glossary` | Glossary content type and view. |
+| `lc_social` | Social links block for the footer. |
+| `lc_zenodo_publications` | Publications of a Zenodo community. |
 
-### Views
-- Pilot list (block, page)
-- Partner list (block, page)
-- Work package list (block)
+## Menu entries
 
-### Roles
-- WP Manager
-- Partner Manager
-
-### Taxonomies vocabulary and terms
-- Country (EU27 countries)
-
-### Pages
-- Privacy
-- Cookies
-
-### Nodes (empty pages)
-- Description of the project
-- Governance
-- Contact
-- Open data
-
-### Menu entries
-
-- Main menu:
-  - About
-    - Description of the project (see nodes)
-    - Partners
-    - Governance
-  - News
-  - Pilots
-  - Contact
-  
-- Footer menu
-  - Privacy
-  - Cookies
-  - Open data
-  - Contact 
+- Main menu: About (Description of the project, Partners, Governance), News,
+  Pilots, Outcomes, Contact
+- Footer menu: Privacy, Cookies, Open data, Contact
 
 ## How to install
 
-Navigate in the web/modules/custom directory (or create if not exists),
-than create a "lc" folder and inside this execute the git clone.
+With Composer, from the root of the Drupal project:
 
 ```
-mkdir -p web/modules/custom/lc
-cd web/modules/custom/lc
-git clone git@github.com:lisboncouncil/drupal-horizon-project.git . 
+composer config repositories.lc vcs https://github.com/lisboncouncil/drupal-horizon-project
+composer require lisboncouncil/drupal-horizon-project:dev-main
 ```
 
-### Metod Composer
+The package is installed in `web/modules/custom/drupal-horizon-project`,
+together with the contrib modules it needs: address, ds, empty_fields,
+field_group and smart_date.
 
-This method has to be improved with the copy of the directories in the modules/custom dir.
+### Optional modules
 
-Add this to the composer.json
+The LC modules work without them and use them when they are installed,
+before or after the LC modules:
+
+| Module | Adds |
+|---|---|
+| `drupal/pathauto` | URL aliases for events and glossary terms |
+| `drupal/metatag`, `drupal/schema_metatag` (enable `schema_event`) | Meta tags and schema.org Event metadata |
+| `drupal/calendar_view` | Calendar page of the events |
+| `drupal/scheduler` | Scheduled publishing of events and materials |
+| `drupal/svg_image` | SVG files in the material image |
+| `drupal/geofield`, `drupal/leaflet`, `drupal/geocoder`, `geocoder-php/nominatim-provider` | Required by `lc_events_map` |
+
+For example:
 
 ```
-"repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "lisboncouncil/drupal-horizon-project",
-                "version": "1.0",
-                "type":"module",
-                "source": {
-                    "url": "https://github.com/lisboncouncil/drupal-horizon-project.git",
-                    "type": "git",
-                    "reference": "main"
-                }
-            }
-        },
-  ]
+composer require drupal/pathauto drupal/metatag drupal/schema_metatag drupal/scheduler
 ```
-  
-  After that
-  
+
+Then enable the modules you need, for example:
+
 ```
-  composer require lisboncouncil/drupal-horizon-project
+drush en lc_hcommon lc_pages lc_section_partners lc_section_wp lc_section_pilots lc_events lc_events_map
+```
+
+## Install test
+
+`scripts/install-test.sh` installs every module on a fresh site, one at a
+time and then all together. It runs on GitHub Actions on every push, weekly,
+and against the development version of the next Drupal release.
+
+To run it locally on a throwaway Composer project that requires this package
+and drush:
+
+```
+scripts/install-test.sh /path/to/test-project
 ```

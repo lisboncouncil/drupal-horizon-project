@@ -5,9 +5,14 @@ type: module
 version: "1.0"
 core_version_requirement: '^10.3 || ^11'
 dependencies:
-  - advanced_text_formatter
-  - ds
-  - image
-  - menu_ui
-  - path
-  - views
+  - lc_base
+  - lc_section_partners
+  - ds:ds
+  - drupal:field
+  - drupal:image
+  - drupal:menu_ui
+  - drupal:node
+  - drupal:path
+  - drupal:text
+  - drupal:user
+  - drupal:views

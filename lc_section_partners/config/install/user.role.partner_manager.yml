@@ -6,7 +6,6 @@ dependencies:
   module:
     - node
     - system
-    - toolbar
 id: partner_manager
 label: 'Partner manager'
 weight: -7
@@ -14,7 +13,6 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access content overview'
-  - 'access toolbar'
   - 'create partner content'
   - 'delete any partner content'
   - 'delete own partner content'

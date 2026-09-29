@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the lc_section_partners module.
+ */
+
+use Drupal\Core\Config\FileStorage;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_install().
+ *
+ * The 'country' vocabulary cannot be a config/install file: older versions of
+ * lc_hcommon created it programmatically, and on those sites Drupal would
+ * refuse to install a module whose config/install collides with it. It is
+ * created here from config/optional when missing. For the same reason
+ * field_country does not declare the vocabulary as a config dependency in its
+ * YAML; the field is re-saved here so that Drupal records the dependency.
+ */
+function lc_section_partners_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  $vocabulary_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_vocabulary');
+  if (!$vocabulary_storage->load('country')) {
+    $source = new FileStorage(\Drupal::service('extension.list.module')->getPath('lc_section_partners') . '/config/optional');
+    $vocabulary_storage->createFromStorageRecord($source->read('taxonomy.vocabulary.country'))->save();
+  }
+
+  _lc_section_partners_create_country_terms();
+
+  lc_section_partners_grant_admin_bar(array_keys(\Drupal::moduleHandler()->getModuleList()));
+
+  $field = FieldConfig::loadByName('node', 'partner', 'field_country');
+  if ($field) {
+    $field->save();
+  }
+}
+
+/**
+ * Populates the 'country' vocabulary with the EU27 countries, if empty.
+ */
+function _lc_section_partners_create_country_terms() {
+  $vid = 'country';
+
+  $entity_type_manager = \Drupal::entityTypeManager();
+  if (!$entity_type_manager->getStorage('taxonomy_vocabulary')->load($vid)) {
+    return;
+  }
+
+  $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+  $existing = $term_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('vid', $vid)
+    ->count()
+    ->execute();
+  if ($existing) {
+    return;
+  }
+
+  $countries = [
+    'Austria',
+    'Belgium',
+    'Bulgaria',
+    'Croatia',
+    'Cyprus',
+    'Czechia',
+    'Denmark',
+    'Estonia',
+    'Finland',
+    'France',
+    'Germany',
+    'Greece',
+    'Hungary',
+    'Ireland',
+    'Italy',
+    'Latvia',
+    'Lithuania',
+    'Luxembourg',
+    'Malta',
+    'Netherlands',
+    'Poland',
+    'Portugal',
+    'Romania',
+    'Slovakia',
+    'Slovenia',
+    'Spain',
+    'Sweden',
+  ];
+
+  foreach ($countries as $weight => $country) {
+    $term_storage->create([
+      'name' => $country,
+      'vid' => $vid,
+      'weight' => $weight,
+    ])->save();
+  }
+}
