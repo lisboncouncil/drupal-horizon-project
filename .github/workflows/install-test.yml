@@ -46,7 +46,10 @@ jobs:
           composer config minimum-stability ${{ matrix.stability }}
           composer config prefer-stable true
           composer config repositories.lc '{"type": "path", "url": "../lc", "options": {"symlink": false}}'
+          # advanced_text_formatter has no stable release for Drupal 11 yet
+          # (3.0.0-rc2): a stability flag only works in the root project.
           composer require --no-update \
+            "drupal/advanced_text_formatter:^3@rc" \
             "drupal/core-recommended:${{ matrix.drupal }}" \
             "drupal/core-composer-scaffold:${{ matrix.drupal }}" \
             "drupal/core-project-message:${{ matrix.drupal }}" \

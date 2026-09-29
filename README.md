@@ -37,8 +37,12 @@ With Composer, from the root of the Drupal project:
 
 ```
 composer config repositories.lc vcs https://github.com/lisboncouncil/drupal-horizon-project
-composer require lisboncouncil/drupal-horizon-project:dev-main
+composer require drupal/advanced_text_formatter:^3@rc lisboncouncil/drupal-horizon-project:dev-main
 ```
+
+`drupal/advanced_text_formatter` has no stable release for Drupal 11 yet
+(3.0.0-rc2): its stability flag must be set in the site's own
+`composer.json`, as above.
 
 The package is installed in `web/modules/custom/drupal-horizon-project`,
 together with the contrib modules it needs. For the event map also run:
