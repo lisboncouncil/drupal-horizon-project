@@ -6,8 +6,6 @@ version: "1.0"
 core_version_requirement: '^10.3 || ^11'
 dependencies:
   - lc_base
-  - advanced_text_formatter:advanced_text_formatter
-  - pathauto:pathauto
   - drupal:field
   - drupal:menu_ui
   - drupal:node

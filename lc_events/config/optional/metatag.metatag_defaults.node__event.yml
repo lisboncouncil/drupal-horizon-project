@@ -1,6 +1,10 @@
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.event
+  module:
+    - schema_event
 id: node__event
 label: 'Content: Event'
 tags:

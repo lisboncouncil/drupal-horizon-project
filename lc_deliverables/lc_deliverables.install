@@ -22,6 +22,8 @@ function lc_deliverables_install($is_syncing) {
     return;
   }
 
+  lc_deliverables_apply_optional_integrations(array_keys(\Drupal::moduleHandler()->getModuleList()));
+
   $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
 
   $terms = $term_storage->loadByProperties([

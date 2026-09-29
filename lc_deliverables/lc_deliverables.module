@@ -1,7 +1,56 @@
-<?php 
+<?php
 
 /**
+ * @file
+ * Optional integrations of the Material content type.
+ *
+ * Contrib modules that are nice to have but not required are wired in here
+ * when they are installed, before or after lc_deliverables:
+ * - scheduler: publish/unpublish on a date.
+ * - svg_image: SVG files accepted in the image field.
+ */
 
-This is just a placeholder
+/**
+ * Implements hook_modules_installed().
+ */
+function lc_deliverables_modules_installed($modules, $is_syncing) {
+  if (!$is_syncing) {
+    lc_deliverables_apply_optional_integrations($modules);
+  }
+}
 
-*/
+/**
+ * Configures the material content type for the given optional modules.
+ *
+ * @param string[] $modules
+ *   Modules to integrate with, when they are installed.
+ */
+function lc_deliverables_apply_optional_integrations(array $modules) {
+  $module_handler = \Drupal::moduleHandler();
+
+  if (in_array('scheduler', $modules, TRUE) && $module_handler->moduleExists('scheduler')) {
+    $node_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('material');
+    if ($node_type) {
+      $node_type
+        ->setThirdPartySetting('scheduler', 'publish_enable', TRUE)
+        ->setThirdPartySetting('scheduler', 'unpublish_enable', FALSE)
+        ->save();
+    }
+    \Drupal::service('entity_display.repository')->getFormDisplay('node', 'material', 'default')
+      ->setComponent('scheduler_settings', ['weight' => 6, 'region' => 'content'])
+      ->setComponent('publish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 8, 'region' => 'content'])
+      ->setComponent('unpublish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 9, 'region' => 'content'])
+      ->save();
+  }
+
+  if (in_array('svg_image', $modules, TRUE) && $module_handler->moduleExists('svg_image')) {
+    $field = \Drupal::entityTypeManager()->getStorage('field_config')->load('node.material.field_image');
+    if ($field) {
+      $extensions = explode(' ', $field->getSetting('file_extensions'));
+      if (!in_array('svg', $extensions, TRUE)) {
+        $extensions[] = 'svg';
+        $field->setSetting('file_extensions', implode(' ', $extensions))->save();
+      }
+    }
+  }
+}

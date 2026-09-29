@@ -31,6 +31,8 @@ function lc_section_partners_install($is_syncing) {
 
   _lc_section_partners_create_country_terms();
 
+  lc_section_partners_grant_admin_bar(array_keys(\Drupal::moduleHandler()->getModuleList()));
+
   $field = FieldConfig::loadByName('node', 'partner', 'field_country');
   if ($field) {
     $field->save();

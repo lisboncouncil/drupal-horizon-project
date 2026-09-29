@@ -7,13 +7,8 @@ version: '1.2'
 dependencies:
   - lc_base
   - address:address
-  - calendar_view:calendar_view
   - ds:ds
   - field_group:field_group
-  - metatag:metatag
-  - pathauto:pathauto
-  - scheduler:scheduler
-  - schema_metatag:schema_event
   - smart_date:smart_date
   - drupal:field
   - drupal:file

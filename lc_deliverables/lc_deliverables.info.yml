@@ -6,11 +6,8 @@ version: '1.0'
 core_version_requirement: '^10.3 || ^11'
 dependencies:
   - lc_base
-  - advanced_text_formatter:advanced_text_formatter
   - ds:ds
   - empty_fields:empty_fields
-  - scheduler:scheduler
-  - svg_image:svg_image
   - drupal:field
   - drupal:file
   - drupal:image

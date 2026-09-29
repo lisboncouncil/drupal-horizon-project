@@ -15,6 +15,5 @@ dependencies:
   - drupal:path
   - drupal:taxonomy
   - drupal:text
-  - drupal:toolbar
   - drupal:user
   - drupal:views
