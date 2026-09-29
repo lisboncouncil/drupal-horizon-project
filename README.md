@@ -37,18 +37,31 @@ With Composer, from the root of the Drupal project:
 
 ```
 composer config repositories.lc vcs https://github.com/lisboncouncil/drupal-horizon-project
-composer require drupal/advanced_text_formatter:^3@rc lisboncouncil/drupal-horizon-project:dev-main
+composer require lisboncouncil/drupal-horizon-project:dev-main
 ```
-
-`drupal/advanced_text_formatter` has no stable release for Drupal 11 yet
-(3.0.0-rc2): its stability flag must be set in the site's own
-`composer.json`, as above.
 
 The package is installed in `web/modules/custom/drupal-horizon-project`,
-together with the contrib modules it needs. For the event map also run:
+together with the contrib modules it needs: address, ds, empty_fields,
+field_group and smart_date.
+
+### Optional modules
+
+The LC modules work without them and use them when they are installed,
+before or after the LC modules:
+
+| Module | Adds |
+|---|---|
+| `drupal/pathauto` | URL aliases for events and glossary terms |
+| `drupal/metatag`, `drupal/schema_metatag` (enable `schema_event`) | Meta tags and schema.org Event metadata |
+| `drupal/calendar_view` | Calendar page of the events |
+| `drupal/scheduler` | Scheduled publishing of events and materials |
+| `drupal/svg_image` | SVG files in the material image |
+| `drupal/geofield`, `drupal/leaflet`, `drupal/geocoder`, `geocoder-php/nominatim-provider` | Required by `lc_events_map` |
+
+For example:
 
 ```
-composer require drupal/geofield drupal/leaflet drupal/geocoder geocoder-php/nominatim-provider
+composer require drupal/pathauto drupal/metatag drupal/schema_metatag drupal/scheduler
 ```
 
 Then enable the modules you need, for example:
