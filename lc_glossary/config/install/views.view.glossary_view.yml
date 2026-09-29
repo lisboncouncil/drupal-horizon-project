@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.body
     - node.type.glossary
   module:
     - advanced_text_formatter

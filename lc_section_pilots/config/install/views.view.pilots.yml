@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.storage.node.body
     - field.storage.node.field_pilot_subtitle
     - node.type.pilot
     - system.menu.main

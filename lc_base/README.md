@@ -10,6 +10,13 @@ Up to Drupal 11.3 the standard profile created them together with the
 every module that attaches `body` or `field_image` to its own content type
 depends on this module.
 
-The storages live in `config/optional`: Drupal creates them only when they
-are missing, so the module installs cleanly both on a fresh 11.4 site and on
-a site that already has them.
+## How it works
+
+`hook_install()` creates the storages only when they are missing, so the
+module installs cleanly both on a fresh 11.4 site and on an older site that
+already has them. The definitions live in `config/optional`.
+
+Drupal checks the config dependencies of every module in an install batch
+before installing any of them. For this reason the config of the dependent
+modules does not list these two storages among its `dependencies`: Drupal
+adds them back when the config is saved.
