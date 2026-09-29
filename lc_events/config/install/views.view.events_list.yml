@@ -307,21 +307,7 @@ display:
         filters: false
         filter_groups: false
       display_description: ''
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
-        metatag_display_extender:
-          metatags: {  }
-          tokenize: false
+      display_extenders: {  }
       block_description: 'Past Events'
     cache_metadata:
       max-age: -1
@@ -375,21 +361,7 @@ display:
       display_description: 'Next events'
       header: {  }
       footer: {  }
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
-        metatag_display_extender:
-          metatags: {  }
-          tokenize: false
+      display_extenders: {  }
       block_description: 'Block next events'
     cache_metadata:
       max-age: -1
@@ -440,21 +412,7 @@ display:
             value: "<div class=\"section-past-events\">\r\n<a href=\"/past-events\" class=\"btn btn-primary\">See past events</a>\r\n\r\n<a href=\"/events-calendar\" class=\"btn btn-primary\">Event Calendar</a>\r\n</div>"
             format: full_html
           tokenize: false
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
-        metatag_display_extender:
-          metatags: {  }
-          tokenize: false
+      display_extenders: {  }
       path: events
     cache_metadata:
       max-age: -1
@@ -563,21 +521,7 @@ display:
             value: "<div class=\"section-past-events\">\r\n<a href=\"/events\" class=\"btn btn-primary\">See upcoming events</a>\r\n</div>"
             format: full_html
           tokenize: false
-      display_extenders:
-        matomo:
-          enabled: false
-          keyword_gets: ''
-          keyword_behavior: first
-          keyword_concat_separator: ' '
-          category_behavior: none
-          category_gets: ''
-          category_concat_separator: ' '
-          category_fallback: ''
-          category_facets: {  }
-          category_facets_concat_separator: ', '
-        metatag_display_extender:
-          metatags: {  }
-          tokenize: false
+      display_extenders: {  }
       path: past-events
     cache_metadata:
       max-age: -1
