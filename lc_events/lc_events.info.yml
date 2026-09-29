@@ -4,6 +4,7 @@ type: module
 package: LC
 core_version_requirement: '^10.3 || ^11'
 dependencies:
+  - lc_base
   - address
   - calendar_view
   - ds
