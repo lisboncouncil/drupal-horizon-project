@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - lc_events_map
+  module:
+    - geofield
+    - node
+id: node.field_event_location
+field_name: field_event_location
+entity_type: node
+type: geofield
+settings:
+  backend: geofield_backend_default
+module: geofield
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

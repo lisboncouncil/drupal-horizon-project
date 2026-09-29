@@ -1,0 +1,15 @@
+name: 'LC Event Map'
+description: 'Adds a map of the event venue, geocoded from the address with OpenStreetMap Nominatim and displayed with Leaflet. No API key needed.'
+type: module
+package: LC
+core_version_requirement: '^10.3 || ^11'
+version: '1.0'
+dependencies:
+  - lc_events:lc_events
+  - geocoder:geocoder
+  - geocoder:geocoder_address
+  - geocoder:geocoder_field
+  - geofield:geofield
+  - leaflet:leaflet
+  - drupal:field
+  - drupal:node

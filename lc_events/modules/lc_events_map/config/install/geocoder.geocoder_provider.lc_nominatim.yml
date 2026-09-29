@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - lc_events_map
+id: lc_nominatim
+label: 'Nominatim (OpenStreetMap)'
+plugin: nominatim
+configuration:
+  throttle:
+    period: null
+    limit: null
+  geocoder:
+    locale: ''
+  rootUrl: 'https://nominatim.openstreetmap.org'
+  userAgent: 'Lisbon Council Horizon project website'
+  referer: ''

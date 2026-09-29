@@ -1,36 +1,29 @@
 name: 'LC Event'
-description: 'Provides Event content type and related configuration. Relevant events of the project'
+description: 'Provides Event content type and related configuration. Relevant events of the project. Enable LC Event Map to add a map of the venue.'
 type: module
 package: LC
 core_version_requirement: '^10.3 || ^11'
+version: '1.2'
 dependencies:
   - lc_base
-  - address
-  - calendar_view
-  - ds
-  - editor
-  - field
-  - field_group
-  - file
-  - filter
-  - geocoder
-  - geocoder_address
-  - geocoder_field
-  - geolocation
-  - geolocation_address
-  - geolocation_google_maps
-  - image
-  - link
-  - menu_ui
-  - metatag
-  - node
-  - path
-  - pathauto
-  - responsive_image
-  - scheduler
-  - smart_date
-  - taxonomy
-  - text
-  - user
-  - views
-version: '1.1'
+  - address:address
+  - calendar_view:calendar_view
+  - ds:ds
+  - field_group:field_group
+  - metatag:metatag
+  - pathauto:pathauto
+  - scheduler:scheduler
+  - schema_metatag:schema_event
+  - smart_date:smart_date
+  - drupal:field
+  - drupal:file
+  - drupal:filter
+  - drupal:image
+  - drupal:link
+  - drupal:menu_ui
+  - drupal:node
+  - drupal:path
+  - drupal:taxonomy
+  - drupal:text
+  - drupal:user
+  - drupal:views

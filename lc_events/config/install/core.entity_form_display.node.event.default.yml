@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.event.field_event_agenda
     - field.field.node.event.field_event_category
     - field.field.node.event.field_event_date
-    - field.field.node.event.field_event_geolocation
     - field.field.node.event.field_event_image
     - field.field.node.event.field_event_url
     - image.style.thumbnail
@@ -158,5 +157,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  field_event_geolocation: true
+hidden: {  }
