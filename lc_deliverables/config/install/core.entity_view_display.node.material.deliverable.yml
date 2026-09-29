@@ -11,7 +11,7 @@ dependencies:
     - field.field.node.material.field_material_type
     - node.type.material
   module:
-    - advanced_text_formatter
+    - text
     - ds
     - empty_fields
     - file
@@ -62,19 +62,10 @@ bundle: material
 mode: deliverable
 content:
   body:
-    type: advanced_text
+    type: text_trimmed
     label: above
     settings:
       trim_length: 600
-      ellipsis: 1
-      word_boundary: 1
-      token_replace: 0
-      filter: input
-      format: plain_text
-      allowed_html: '<a> <b> <br> <dd> <dl> <dt> <em> <i> <li> <ol> <p> <strong> <u> <ul>'
-      autop: 0
-      use_summary: 0
-      link_to_entity: false
     third_party_settings: {  }
     weight: 1
     region: ds_content

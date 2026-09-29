@@ -7,7 +7,7 @@ dependencies:
     - node.type.pilot
     - system.menu.main
   module:
-    - advanced_text_formatter
+    - text
     - node
     - user
 id: pilots
@@ -204,31 +204,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: advanced_text
+          type: text_summary_or_trimmed
           settings:
-            trim_length: '600'
-            ellipsis: 1
-            word_boundary: 1
-            use_summary: 1
-            token_replace: 0
-            filter: input
-            format: plain_text
-            allowed_html:
-              - a
-              - b
-              - br
-              - dd
-              - dl
-              - dt
-              - em
-              - i
-              - li
-              - ol
-              - p
-              - strong
-              - u
-              - ul
-            autop: 0
+            trim_length: 600
           group_column: value
           group_columns: {  }
           group_rows: true

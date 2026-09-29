@@ -4,7 +4,7 @@ dependencies:
   config:
     - node.type.glossary
   module:
-    - advanced_text_formatter
+    - text
     - node
     - user
 id: glossary_view
@@ -203,31 +203,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: advanced_text
+          type: text_trimmed
           settings:
-            trim_length: '200'
-            ellipsis: 1
-            word_boundary: 1
-            use_summary: 0
-            token_replace: 1
-            filter: none
-            format: plain_text
-            allowed_html:
-              - a
-              - b
-              - br
-              - dd
-              - dl
-              - dt
-              - em
-              - i
-              - li
-              - ol
-              - p
-              - strong
-              - u
-              - ul
-            autop: 0
+            trim_length: 200
           group_column: value
           group_columns: {  }
           group_rows: true
