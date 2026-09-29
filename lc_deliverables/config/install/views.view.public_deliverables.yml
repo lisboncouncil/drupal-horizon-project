@@ -342,16 +342,12 @@ display:
           limit: true
           error_message: true
       style:
-        type: views_bootstrap_grid
+        type: default
         options:
+          grouping: {  }
           row_class: 'my-2 py-4 container border-bottom'
           default_row_class: true
           uses_fields: false
-          col_xs: none
-          col_sm: none
-          col_md: none
-          col_lg: none
-          col_xl: none
       row:
         type: 'entity:node'
         options:

@@ -5,10 +5,13 @@ type: module
 version: "1.0"
 core_version_requirement: '^10.3 || ^11'
 dependencies:
-  - pathauto
   - lc_base
-  - advanced_text_formatter
-  - ds
-  - menu_ui
-  - path
-  - views
+  - advanced_text_formatter:advanced_text_formatter
+  - pathauto:pathauto
+  - drupal:field
+  - drupal:menu_ui
+  - drupal:node
+  - drupal:path
+  - drupal:text
+  - drupal:user
+  - drupal:views

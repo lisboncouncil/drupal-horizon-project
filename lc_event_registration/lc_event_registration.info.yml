@@ -5,9 +5,10 @@ core_version_requirement: '^10.3 || ^11'
 package: 'LC'
 configure: lc_event_registration.settings
 dependencies:
-  - drupal:node
-  - drupal:user
   - drupal:datetime
   - drupal:field
+  - drupal:file
+  - drupal:node
   - drupal:options
+  - drupal:user
   - drupal:views
