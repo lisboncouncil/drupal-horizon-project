@@ -1,0 +1,18 @@
+# Leaflet formatter of the event map, applied to the default event display
+# when the module is installed. See README.md.
+formatter:
+  leaflet_map: openstreetmap
+  height: 400
+  height_unit: px
+  disable_wheel: true
+  gesture_handling: false
+  icon:
+    iconType: marker
+    html: '<div></div>'
+    html_class: leaflet-map-divicon
+    iconSize:
+      x: null
+      'y': null
+    iconAnchor:
+      x: null
+      'y': null

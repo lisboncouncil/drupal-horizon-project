@@ -11,8 +11,9 @@ use Drupal\Core\Entity\Display\EntityDisplayInterface;
  * Implements hook_install().
  *
  * The event displays belong to lc_events, so the map is placed here rather
- * than shipped as config. The Leaflet formatter is added with its default
- * settings.
+ * than shipped as config. The Leaflet formatter settings come from
+ * lc_events_map.settings:formatter and hook_lc_events_map_formatter_settings_alter()
+ * (see _lc_events_map_formatter_settings()).
  */
 function lc_events_map_install($is_syncing) {
   if ($is_syncing) {
@@ -26,6 +27,7 @@ function lc_events_map_install($is_syncing) {
     'type' => 'leaflet_formatter_default',
     'label' => 'hidden',
     'weight' => 6,
+    'settings' => _lc_events_map_formatter_settings(),
   ]);
   _lc_events_map_place_after_address($view_display);
   $view_display->save();
@@ -50,6 +52,44 @@ function lc_events_map_uninstall($is_syncing) {
   $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'event', 'default');
   _lc_events_map_remove_from_layout($display);
   $display->removeComponent('field_event_location')->save();
+}
+
+/**
+ * Leaflet formatter settings of the event map.
+ *
+ * The Leaflet formatter defaults, then lc_events_map.settings:formatter (the
+ * map definition, height, mouse wheel, gesture handling and marker), then
+ * hook_lc_events_map_formatter_settings_alter(). A map definition that does
+ * not exist falls back to the Leaflet "openstreetmap" map.
+ *
+ * @return array
+ *   The leaflet_formatter_default settings.
+ */
+function _lc_events_map_formatter_settings() {
+  $settings = \Drupal::service('plugin.manager.field.formatter')
+    ->getDefaultSettings('leaflet_formatter_default');
+
+  $configured = \Drupal::config('lc_events_map.settings')->get('formatter') ?? [];
+  foreach (['leaflet_map', 'height', 'height_unit', 'disable_wheel', 'gesture_handling'] as $key) {
+    if (isset($configured[$key])) {
+      $settings[$key] = $configured[$key];
+    }
+  }
+  if (!empty($configured['icon']) && is_array($configured['icon'])) {
+    $settings['icon'] = array_replace_recursive($settings['icon'] ?? [], array_filter($configured['icon'], fn($value) => $value !== NULL));
+  }
+
+  \Drupal::moduleHandler()->alter('lc_events_map_formatter_settings', $settings);
+
+  if (!leaflet_map_get_info($settings['leaflet_map'] ?? '')) {
+    \Drupal::logger('lc_events_map')->warning('The Leaflet map %map does not exist: the event map uses %default.', [
+      '%map' => $settings['leaflet_map'] ?? '',
+      '%default' => 'openstreetmap',
+    ]);
+    $settings['leaflet_map'] = 'openstreetmap';
+  }
+
+  return $settings;
 }
 
 /**
