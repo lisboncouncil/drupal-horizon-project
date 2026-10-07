@@ -2,7 +2,7 @@ lc_pages.privacy:
   path: '/privacy'
   defaults:
     _controller: '\Drupal\lc_pages\Controller\LCPagesController::privacyPage'
-    _title: 'Privacy'
+    _title: 'Privacy Policy'
   requirements:
     _permission: 'access content'
 
