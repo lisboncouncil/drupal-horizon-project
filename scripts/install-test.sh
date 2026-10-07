@@ -87,6 +87,10 @@ check_optional_config() {
       failed=1
     fi
   done
+  if ! "$DRUSH" config:get views.view.events_list display.page_1.display_options.footer.area.content.value 2>/dev/null | grep -q events-calendar; then
+    echo "FAIL  $1: no calendar link under the upcoming events"
+    failed=1
+  fi
   if [ "$("$DRUSH" config:get node.type.event third_party_settings.scheduler.publish_enable --format=string 2>/dev/null)" != "1" ]; then
     echo "FAIL  $1: scheduler not enabled on the event content type"
     failed=1

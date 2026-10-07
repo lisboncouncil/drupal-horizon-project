@@ -6,10 +6,17 @@
  *
  * Contrib modules that are nice to have but not required are wired in here
  * when they are installed, before or after lc_events:
- * - scheduler: publish/unpublish on a date.
+ * - scheduler: publish/unpublish on a date;
+ * - calendar_view: link to the calendar under the upcoming events.
  * pathauto, metatag and calendar_view ship their config in config/optional
  * instead, which Drupal installs on its own when the module is present.
  */
+
+/**
+ * Footer of the upcoming events page, without and with the calendar link.
+ */
+const LC_EVENTS_LIST_FOOTER = "<div class=\"section-past-events\">\r\n<a href=\"/past-events\" class=\"btn btn-primary\">See past events</a>\r\n</div>";
+const LC_EVENTS_LIST_FOOTER_CALENDAR = "<div class=\"section-past-events\">\r\n<a href=\"/past-events\" class=\"btn btn-primary\">See past events</a>\r\n\r\n<a href=\"/events-calendar\" class=\"btn btn-primary\">Event Calendar</a>\r\n</div>";
 
 /**
  * Implements hook_modules_installed().
@@ -17,6 +24,15 @@
 function lc_events_modules_installed($modules, $is_syncing) {
   if (!$is_syncing) {
     lc_events_apply_optional_integrations($modules);
+  }
+}
+
+/**
+ * Implements hook_modules_uninstalled().
+ */
+function lc_events_modules_uninstalled($modules, $is_syncing) {
+  if (!$is_syncing && in_array('calendar_view', $modules, TRUE)) {
+    lc_events_set_calendar_link(FALSE);
   }
 }
 
@@ -53,6 +69,36 @@ function lc_events_apply_optional_integrations(array $modules) {
     }
     _lc_events_add_scheduler_widgets('event');
   }
+
+  if (in_array('calendar_view', $modules, TRUE) && $module_handler->moduleExists('calendar_view')) {
+    lc_events_set_calendar_link(TRUE);
+  }
+}
+
+/**
+ * Adds or removes the calendar link under the upcoming events (page_1).
+ *
+ * The calendar page (/events-calendar, view events_calendar) only exists
+ * with calendar_view. The footer is changed only while it is one of the two
+ * texts shipped with the module, so that a customised footer is kept.
+ *
+ * @param bool $add
+ *   TRUE to add the link, FALSE to remove it.
+ */
+function lc_events_set_calendar_link($add) {
+  $view = \Drupal::entityTypeManager()->getStorage('view')->load('events_list');
+  if (!$view) {
+    return;
+  }
+  $displays = $view->get('display');
+  $value = $displays['page_1']['display_options']['footer']['area']['content']['value'] ?? NULL;
+  $from = $add ? LC_EVENTS_LIST_FOOTER : LC_EVENTS_LIST_FOOTER_CALENDAR;
+  if ($value !== $from) {
+    return;
+  }
+  $displays['page_1']['display_options']['footer']['area']['content']['value'] = $add ? LC_EVENTS_LIST_FOOTER_CALENDAR : LC_EVENTS_LIST_FOOTER;
+  $view->set('display', $displays);
+  $view->save();
 }
 
 /**
