@@ -53,7 +53,7 @@ before or after the LC modules:
 |---|---|
 | `drupal/pathauto` | URL aliases for events and glossary terms |
 | `drupal/metatag`, `drupal/schema_metatag` (enable `schema_event`) | Meta tags and schema.org Event metadata |
-| `drupal/calendar_view` | Calendar page of the events |
+| `drupal/calendar_view` | Calendar page of the events, linked under the upcoming events |
 | `drupal/scheduler` | Scheduled publishing of events and materials |
 | `drupal/svg_image` | SVG files in the material image |
 | `drupal/geofield`, `drupal/leaflet`, `drupal/geocoder`, `geocoder-php/nominatim-provider` | Required by `lc_events_map` |
@@ -69,6 +69,24 @@ Then enable the modules you need, for example:
 ```
 drush en lc_hcommon lc_pages lc_section_partners lc_section_wp lc_section_pilots lc_events lc_events_map
 ```
+
+## Events
+
+- **Lists.** `/events` lists the upcoming events (an event stays there until
+  its end), soonest first; `/past-events` and the "Past events" block list
+  the past ones, newest first. The link to the calendar (`/events-calendar`)
+  under the upcoming events is only added while `calendar_view` is
+  installed.
+- **Timezone of the event dates.** The date widget (Smart date, inline) has
+  no timezone selector: editors enter the times in their own timezone (the
+  site default timezone unless users may set their own), and the times are
+  shown in the visitor's timezone in the same way. Set the site default
+  timezone (Regional settings) to the timezone of most events, e.g.
+  `Europe/Brussels`. When events take place in several timezones, switch the
+  widget of `field_event_date` to "Smart date | Inline with timezone" in
+  Manage form display, so that each event stores its own timezone.
+- **Venue map.** See `lc_events/modules/lc_events_map/README.md` to choose
+  the Leaflet map, its height and the marker.
 
 ## Install test
 

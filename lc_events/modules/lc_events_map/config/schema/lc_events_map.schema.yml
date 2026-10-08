@@ -1,0 +1,60 @@
+lc_events_map.settings:
+  type: config_object
+  label: 'LC Event Map settings'
+  mapping:
+    formatter:
+      type: mapping
+      label: 'Event map formatter'
+      mapping:
+        leaflet_map:
+          type: string
+          label: 'Leaflet map definition (hook_leaflet_map_info())'
+        height:
+          type: integer
+          label: 'Map height'
+        height_unit:
+          type: string
+          label: 'Height unit (px or %)'
+        disable_wheel:
+          type: boolean
+          label: 'Disable zoom with the mouse wheel'
+        gesture_handling:
+          type: boolean
+          label: 'Gesture handling (two fingers to move, Ctrl + wheel to zoom)'
+        icon:
+          type: mapping
+          label: 'Marker'
+          mapping:
+            iconType:
+              type: string
+              label: 'Icon type (marker, html, circle_marker)'
+            html:
+              type: string
+              label: 'HTML of the marker (html icon type)'
+            html_class:
+              type: string
+              label: 'CSS class of the marker (html icon type)'
+            iconSize:
+              type: mapping
+              label: 'Icon size'
+              mapping:
+                x:
+                  type: integer
+                  nullable: true
+                  label: 'Width'
+                'y':
+                  type: integer
+                  nullable: true
+                  label: 'Height'
+            iconAnchor:
+              type: mapping
+              label: 'Icon anchor'
+              mapping:
+                x:
+                  type: integer
+                  nullable: true
+                  label: 'X'
+                'y':
+                  type: integer
+                  nullable: true
+                  label: 'Y'

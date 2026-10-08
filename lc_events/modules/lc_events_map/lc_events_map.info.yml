@@ -3,7 +3,7 @@ description: 'Adds a map of the event venue, geocoded from the address with Open
 type: module
 package: LC
 core_version_requirement: '^10.3 || ^11'
-version: '1.0'
+version: '1.1'
 dependencies:
   - lc_events:lc_events
   - geocoder:geocoder

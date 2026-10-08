@@ -22,7 +22,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Events List'
+      title: 'Events list'
       fields:
         title:
           id: title
@@ -230,7 +230,7 @@ display:
     display_plugin: block
     position: 2
     display_options:
-      title: 'Past Events'
+      title: 'Past events'
       filters:
         status:
           id: status
@@ -306,9 +306,25 @@ display:
         title: false
         filters: false
         filter_groups: false
+        sorts: false
+      sorts:
+        field_event_date_value:
+          id: field_event_date_value
+          table: node__field_event_date
+          field: field_event_date_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: date
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+          granularity: second
       display_description: ''
       display_extenders: {  }
-      block_description: 'Past Events'
+      block_description: 'Past events'
     cache_metadata:
       max-age: -1
       contexts:
@@ -378,7 +394,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      title: 'Upcoming Events'
+      title: 'Upcoming events'
       empty:
         area:
           id: area
@@ -409,7 +425,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: "<div class=\"section-past-events\">\r\n<a href=\"/past-events\" class=\"btn btn-primary\">See past events</a>\r\n\r\n<a href=\"/events-calendar\" class=\"btn btn-primary\">Event Calendar</a>\r\n</div>"
+            value: "<div class=\"section-past-events\">\r\n<a href=\"/past-events\" class=\"btn btn-primary\">See past events</a>\r\n</div>"
             format: full_html
           tokenize: false
       display_extenders: {  }
@@ -429,7 +445,7 @@ display:
     display_plugin: page
     position: 2
     display_options:
-      title: 'Past Events'
+      title: 'Past events'
       filters:
         status:
           id: status
@@ -506,6 +522,22 @@ display:
         filters: false
         filter_groups: false
         footer: false
+        sorts: false
+      sorts:
+        field_event_date_value:
+          id: field_event_date_value
+          table: node__field_event_date
+          field: field_event_date_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: date
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+          granularity: second
       display_description: ''
       footer:
         area:
