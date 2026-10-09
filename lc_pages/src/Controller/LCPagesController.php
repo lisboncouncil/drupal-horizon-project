@@ -2,6 +2,7 @@
 
 namespace Drupal\lc_pages\Controller;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 
 
 /**
@@ -60,7 +61,23 @@ class LCPagesController extends ControllerBase {
       '#do_not_track' => $config->get('do_not_track'),
       '#document_timestamp' => date('j M Y', filemtime(__FILE__)),
       '#site_name' => \Drupal::config('system.site')->get('name'),
+      '#partners_url' => $this->partners_url(),
     ];
+  }
+
+  /**
+   * URL of the partners list page (lc_section_partners, views partners).
+   *
+   * Built from the route, so it follows the path set on the view.
+   *
+   * @return string
+   *   Empty when lc_section_partners is not installed.
+   */
+  protected function partners_url(): string {
+    $route_name = 'view.partners.page_1';
+    $routes = \Drupal::service('router.route_provider')->getRoutesByNames([$route_name]);
+
+    return $routes ? Url::fromRoute($route_name)->toString() : '';
   }
   
   /**
