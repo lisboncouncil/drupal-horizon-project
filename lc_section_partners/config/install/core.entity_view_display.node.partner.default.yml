@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.partner.field_partner_logo
     - field.field.node.partner.field_partner_n
     - field.field.node.partner.field_partner_url
+    - field.field.node.partner.field_pic_number
     - field.field.node.partner.field_partners_logo_mono
     - field.field.node.partner.field_role_in_the_project
     - node.type.partner
@@ -81,3 +82,4 @@ content:
     region: content
 hidden:
   field_partners_logo_mono: true
+  field_pic_number: true

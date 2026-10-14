@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pic_number
+    - node.type.partner
+id: node.partner.field_pic_number
+field_name: field_pic_number
+entity_type: node
+bundle: partner
+label: 'PIC number'
+description: 'Participant Identification Code (9 digits) of the EU Funding & Tenders Portal.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 100000000
+  max: 999999999
+  prefix: ''
+  suffix: ''
+field_type: integer
