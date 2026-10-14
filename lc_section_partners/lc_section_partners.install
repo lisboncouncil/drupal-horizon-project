@@ -6,7 +6,10 @@
  */
 
 use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 
 /**
  * Implements hook_install().
@@ -96,5 +99,35 @@ function _lc_section_partners_create_country_terms() {
       'vid' => $vid,
       'weight' => $weight,
     ])->save();
+  }
+}
+
+/**
+ * Adds the PIC number field to the partner content type.
+ */
+function lc_section_partners_update_10001() {
+  $source = new FileStorage(\Drupal::service('extension.list.module')->getPath('lc_section_partners') . '/config/install');
+
+  if (!FieldStorageConfig::loadByName('node', 'field_pic_number')) {
+    FieldStorageConfig::create($source->read('field.storage.node.field_pic_number'))->save();
+  }
+  if (!FieldConfig::loadByName('node', 'partner', 'field_pic_number')) {
+    FieldConfig::create($source->read('field.field.node.partner.field_pic_number'))->save();
+  }
+
+  $form_display = EntityFormDisplay::load('node.partner.default');
+  if ($form_display && !$form_display->getComponent('field_pic_number')) {
+    $form_display->setComponent('field_pic_number', [
+      'type' => 'number',
+      'weight' => 27,
+      'settings' => ['placeholder' => ''],
+    ])->save();
+  }
+
+  foreach (['default', 'teaser'] as $view_mode) {
+    $view_display = EntityViewDisplay::load('node.partner.' . $view_mode);
+    if ($view_display && $view_display->getComponent('field_pic_number')) {
+      $view_display->removeComponent('field_pic_number')->save();
+    }
   }
 }
