@@ -43,7 +43,7 @@ class PublicationController extends ControllerBase {
 
           if(isset($creator['orcid'])) {
               $authors[] = "<a class=\"pub-author\" title=\"Affiliation: {$creator['affiliation']}\" "
-                  . "href=\"https://https://orcid.org/{$creator['orcid']}\">"
+                  . "href=\"https://orcid.org/{$creator['orcid']}\">"
                   . $creator['name'] . "</a>";
           }
           else {
@@ -52,12 +52,35 @@ class PublicationController extends ControllerBase {
           }
       }
 
+      $files = [];
+      foreach ($publication['files'] ?? [] as $file) {
+        $key = (string) $file['key'];
+        $files[] = [
+          'name' => basename($key),
+          'size' => (int) ($file['size'] ?? 0),
+          'url' => "https://zenodo.org/records/{$publication['id']}/files/"
+            . implode('/', array_map('rawurlencode', explode('/', $key))) . '?download=1',
+        ];
+      }
+
       $publications[] = [
         'title' => $publication['metadata']['title'],
         'description' => $publication['metadata']['description'] ?? null,
         'doi' => $publication['metadata']['doi'],
         'publication_date' => (new \Datetime($publication['metadata']['publication_date']))->format('d/m/Y'),
         'authors' => $authors,
+        // ISO date (Y-m-d), for themes that format it themselves.
+        'date' => $publication['metadata']['publication_date'],
+        'keywords' => $publication['metadata']['keywords'] ?? [],
+        // Zenodo type and subtype ids ("publication", "report") and its
+        // English label ("Report").
+        'resource_type' => [
+          'type' => $publication['metadata']['resource_type']['type'] ?? '',
+          'subtype' => $publication['metadata']['resource_type']['subtype'] ?? '',
+          'title' => $publication['metadata']['resource_type']['title'] ?? '',
+        ],
+        'files' => $files,
+        'record_url' => $publication['links']['self_html'] ?? '',
       ];
     }
 

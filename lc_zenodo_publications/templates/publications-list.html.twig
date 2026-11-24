@@ -1,3 +1,22 @@
+{#
+/**
+ * @file
+ * Publications of the Zenodo community (lc_zenodo_publications.settings).
+ *
+ * Variables:
+ * - n_pubs: number of publications.
+ * - path_page: URL of the community page on Zenodo.
+ * - publications: list, newest first, each with:
+ *   - title, doi, description (HTML from Zenodo);
+ *   - authors: HTML, one link or span per creator;
+ *   - publication_date: d/m/Y; date: Y-m-d;
+ *   - keywords: list of strings;
+ *   - resource_type: type and subtype (Zenodo ids, e.g. "publication",
+ *     "report") and title (English label, e.g. "Report");
+ *   - files: list of name, size (bytes) and url (download);
+ *   - record_url: the record page on Zenodo.
+ */
+#}
 <div class="publications-list">
 
   <h2 class="visually-hidden">{{ 'Publications about the project'|t }}</h2>
