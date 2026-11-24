@@ -2,6 +2,7 @@
 
 namespace Drupal\lc_pages\Controller;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 
 
@@ -39,7 +40,7 @@ class LCPagesController extends ControllerBase {
       '#data_owner' => $config->get('data_owner'),
       '#data_owner_email' => $config->get('data_owner_email'),
       '#do_not_track' => $config->get('do_not_track'),
-      '#document_timestamp' => date('j M Y', filemtime(__FILE__)),
+      '#document_timestamp' => \Drupal::service('date.formatter')->format(filemtime(__FILE__), 'custom', 'j M Y'),
       '#site_name' => \Drupal::config('system.site')->get('name'),
     ];
   }
@@ -59,9 +60,10 @@ class LCPagesController extends ControllerBase {
       '#data_owner' => $config->get('data_owner'),
       '#data_owner_email' => $config->get('data_owner_email'),
       '#do_not_track' => $config->get('do_not_track'),
-      '#document_timestamp' => date('j M Y', filemtime(__FILE__)),
+      '#document_timestamp' => \Drupal::service('date.formatter')->format(filemtime(__FILE__), 'custom', 'j M Y'),
       '#site_name' => \Drupal::config('system.site')->get('name'),
       '#partners_url' => $this->partners_url(),
+      '#partners_link' => $this->partners_link(),
     ];
   }
 
@@ -79,6 +81,28 @@ class LCPagesController extends ControllerBase {
 
     return $routes ? Url::fromRoute($route_name)->toString() : '';
   }
+
+  /**
+   * "Consortium Partners", linked to the partners list when there is one.
+   *
+   * A render array, so that it can go into a {% trans %} placeholder.
+   */
+  protected function partners_link(): array {
+    $text = $this->t('Consortium Partners');
+
+    return $this->partners_url() ? Link::createFromRoute($text, 'view.partners.page_1')->toRenderable() : ['#markup' => $text];
+  }
+
+  /**
+   * The date of a settings value ("27 June 2025") in the page language.
+   *
+   * Values that are not a date are returned as they are.
+   */
+  protected function localized_date(?string $date): ?string {
+    $time = $date ? strtotime($date) : FALSE;
+
+    return $time ? \Drupal::service('date.formatter')->format($time, 'custom', 'j F Y') : $date;
+  }
   
   /**
    * Returns a simple page.
@@ -94,8 +118,8 @@ class LCPagesController extends ControllerBase {
       '#theme' => 'hpage_accessibility_statement',
       '#site_name' => \Drupal::config('system.site')->get('name'),
       '#email_accessibility' => $config->get('email_accessibility'),
-      '#accessibility_date' => $config->get('accessibility_date'),
-      '#accessibility_date_next' => $config->get('accessibility_date_next'),
+      '#accessibility_date' => $this->localized_date($config->get('accessibility_date')),
+      '#accessibility_date_next' => $this->localized_date($config->get('accessibility_date_next')),
       '#additional_issues' => $config->get('additional_issues'),
     ];
   }

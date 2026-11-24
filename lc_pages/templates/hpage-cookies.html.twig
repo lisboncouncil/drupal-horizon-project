@@ -1,71 +1,76 @@
-<p>To make this websites work properly, we sometimes place small data files called cookies on your device.</p>
+{#
+  Cookie policy. One {% trans %} per block, each on one line, so that every
+  paragraph is one string in the translation files.
+#}
+<p>{% trans %}To make this website work properly, we sometimes place small data files called cookies on your device.{% endtrans %}</p>
 
-<h2>What are cookies?</h2>
+<h2>{% trans %}What are cookies?{% endtrans %}</h2>
 
-<p>A cookie is a small text file that a website stores on your computer or mobile device when you visit the site.</p>
+<p>{% trans %}A cookie is a small text file that a website stores on your computer or mobile device when you visit the site.{% endtrans %}</p>
 
 <ul>
-    <li><strong>First party cookies</strong>&nbsp;are cookies set by the website you are visiting. Only that website can read them. In addition, a website might potentially use external services, which also set their own cookies, known as&nbsp;<strong>third-party cookies</strong>.</li>
-    <li><strong>Persistent cookies</strong>&nbsp;are cookies saved on your computer and that are not deleted automatically when you quit your browser,&nbsp;<strong>unlike a session cookie</strong>, which is deleted when you quit your browser.</li>
+    <li>{% trans %}<strong>First party cookies</strong> are cookies set by the website you are visiting. Only that website can read them. In addition, a website might potentially use external services, which also set their own cookies, known as <strong>third-party cookies</strong>.{% endtrans %}</li>
+    <li>{% trans %}<strong>Persistent cookies</strong> are cookies saved on your computer and that are not deleted automatically when you quit your browser, <strong>unlike a session cookie</strong>, which is deleted when you quit your browser.{% endtrans %}</li>
 </ul>
 
-<p>Every time you visit this website, you will be prompted to&nbsp;<strong>accept or refuse cookies</strong>.</p>
+<p>{% trans %}Every time you visit this website, you will be prompted to <strong>accept or refuse cookies</strong>.{% endtrans %}</p>
 
-<p>The purpose is to enable the site to remember your preferences (such as user name, language, etc.) for a certain period of time. That way,&nbsp;<strong>you do not have to re-enter them</strong>&nbsp;when browsing around the site during the same visit.</p>
+<p>{% trans %}The purpose is to enable the site to remember your preferences (such as user name, language, etc.) for a certain period of time. That way, <strong>you do not have to re-enter them</strong> when browsing around the site during the same visit.{% endtrans %}</p>
 
-<p>Cookies can also be used to establish anonymised statistics about the browsing experience on our sites.</p>
+<p>{% trans %}Cookies can also be used to establish anonymised statistics about the browsing experience on our sites.{% endtrans %}</p>
 
-<h3>Visitor preferences</h3>
+<h3>{% trans %}Visitor preferences{% endtrans %}</h3>
 
-<p>These are set by us and only we can read them. They remember if you have agreed to (or refused) this site’s cookie policy.&nbsp;</p>
+<p>{% trans %}These are set by us and only we can read them. They remember if you have agreed to (or refused) this site’s cookie policy.{% endtrans %}</p>
 
-<p><strong>Visitor preferences cookies are:</strong></p>
+<p><strong>{% trans %}Visitor preferences cookies are:{% endtrans %}</strong></p>
 
-<p><strong>Name:</strong> cookie-agreed</p>
+<p><strong>{{ 'Name:'|t }}</strong> cookie-agreed</p>
 
-<p><strong>Service</strong>: Cookie consent kit</p>
+<p><strong>{{ 'Service:'|t }}</strong> {{ 'Cookie consent kit'|t }}</p>
 
-<p><strong>Purpose</strong>: Stores your cookie preferences (so you won’t be asked again)</p>
+<p><strong>{{ 'Purpose:'|t }}</strong> {% trans %}Stores your cookie preferences (so you won’t be asked again){% endtrans %}</p>
 
-<p><strong>Cookie type and duration</strong>: First-party persistent cookie, 3 months</p>
-
-<p>&nbsp;</p>
-
-<p><strong>Name:</strong> cookie-agreed-version</p>
-
-<p><strong>Service</strong>: Cookie consent kit</p>
-
-<p><strong>Purpose</strong>: Stores the version of cookie preferences</p>
-
-<p><strong>Cookie type and duration</strong>: First-party persistent cookie, 3 months</p>
+<p><strong>{{ 'Cookie type and duration:'|t }}</strong> {{ 'First-party persistent cookie, 3 months'|t }}</p>
 
 <p>&nbsp;</p>
 
-<h3>Analytics cookies</h3>
+<p><strong>{{ 'Name:'|t }}</strong> cookie-agreed-version</p>
 
-<p>We use these purely for internal research on how we can improve the service we provide for all our users.</p>
+<p><strong>{{ 'Service:'|t }}</strong> {{ 'Cookie consent kit'|t }}</p>
 
-<p>The cookies simply assess how you interact with our website – as an anonymous user (they&nbsp;<strong>data gathered does not identify you personally</strong>).</p>
+<p><strong>{{ 'Purpose:'|t }}</strong> {% trans %}Stores the version of cookie preferences{% endtrans %}</p>
 
-<p>Also, this data is&nbsp;<strong>not shared with any third parties</strong>&nbsp;or used for any other purpose. The anonymised statistics could be shared with the {% if partners_url %}<a href="{{ partners_url }}">Consortium Partners</a>{% else %}Consortium Partners{% endif %}&nbsp;or with the European Commission.</p>
+<p><strong>{{ 'Cookie type and duration:'|t }}</strong> {{ 'First-party persistent cookie, 3 months'|t }}</p>
 
-<p><strong>Analytics cookies</strong>&nbsp;are:</p>
+<p>&nbsp;</p>
 
-<p><strong>Name</strong>: _pk_id#</p>
+<h3>{% trans %}Analytics cookies{% endtrans %}</h3>
 
-<p><strong>Service</strong>: Corporate web analytics service, based on Matomo open source software</p>
+<p>{% trans %}We use these purely for internal research on how we can improve the service we provide for all our users.{% endtrans %}</p>
 
-<p><strong>Purpose</strong>: Recognises website visitors (<strong>anonymously</strong>&nbsp;– no personal information is collected on the user)</p>
+<p>{% trans %}The cookies simply assess how you interact with our website – as an anonymous user (the <strong>data gathered does not identify you personally</strong>).{% endtrans %}</p>
 
-<p><strong>Cookie type and duration</strong>: First-party persistent cookie, 13 months</p>
+<p>{% trans %}Also, this data is <strong>not shared with any third parties</strong> or used for any other purpose. The anonymised statistics could be shared with the {{ partners_link }} or with the European Commission.{% endtrans %}</p>
 
-<p><br />
-<strong>Name</strong>: _pk_ses#</p>
+<p><strong>{% trans %}Analytics cookies are:{% endtrans %}</strong></p>
 
-<p><strong>Service</strong>: Corporate web analytics service, based on Matomo open source software</p>
+<p><strong>{{ 'Name:'|t }}</strong> _pk_id#</p>
 
-<p><strong>Purpose</strong>: Identifies the pages viewed by the same user during the same visit. (<strong>anonymously</strong>&nbsp;– no personal information is collected on the user)</p>
+<p><strong>{{ 'Service:'|t }}</strong> {% trans %}Corporate web analytics service, based on Matomo open source software{% endtrans %}</p>
 
-<p><strong>Cookie type and duration</strong>: First-party persistent cookie, 30 minutes</p>
+<p><strong>{{ 'Purpose:'|t }}</strong> {% trans %}Recognises website visitors (<strong>anonymously</strong> – no personal information is collected on the user){% endtrans %}</p>
+
+<p><strong>{{ 'Cookie type and duration:'|t }}</strong> {{ 'First-party persistent cookie, 13 months'|t }}</p>
+
+<p>&nbsp;</p>
+
+<p><strong>{{ 'Name:'|t }}</strong> _pk_ses#</p>
+
+<p><strong>{{ 'Service:'|t }}</strong> {% trans %}Corporate web analytics service, based on Matomo open source software{% endtrans %}</p>
+
+<p><strong>{{ 'Purpose:'|t }}</strong> {% trans %}Identifies the pages viewed by the same user during the same visit. (<strong>anonymously</strong> – no personal information is collected on the user){% endtrans %}</p>
+
+<p><strong>{{ 'Cookie type and duration:'|t }}</strong> {{ 'First-party persistent cookie, 30 minutes'|t }}</p>
 
 <p>&nbsp;</p>

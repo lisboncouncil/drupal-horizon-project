@@ -16,6 +16,7 @@ function lc_pages_theme($existing, $type, $theme, $path) {
           'accessibility_date_next' => NULL,
           'additional_issues' => NULL,
           'partners_url' => NULL,
+          'partners_link' => NULL,
       ];
     
   return [
