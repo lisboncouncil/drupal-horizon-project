@@ -1,87 +1,91 @@
-
+{#
+  Accessibility statement. One {% trans %} per block, each on one line, so
+  that every paragraph is one string in the translation files.
+#}
+{% set site_name_upper = site_name|upper %}
 <p>
-    <em>Last updated: {{accessibility_date}}</em> - 
-    <em>Review date: {{accessibility_date_next}}</em>
+    <em>{% trans %}Last updated: {{ accessibility_date }}{% endtrans %}</em> -
+    <em>{% trans %}Review date: {{ accessibility_date_next }}{% endtrans %}</em>
 </p>
 
-<h2>1. Introduction</h2>
-<p>{{ site_name | upper }} (“the Website”) is committed to ensuring digital accessibility for all users, including people with disabilities. We strive to comply with the European Accessibility Act (EAA) and with the European standard EN 301 549 v3.2.1, which incorporates the Web Content Accessibility Guidelines (WCAG) 2.1 AA requirements. This accessibility statement applies to all pages and content published on the Website.</p>
-<h2>2. Scope</h2>
-<p>This statement covers all digital content delivered through the website, including:</p>
+<h2>{% trans %}1. Introduction{% endtrans %}</h2>
+<p>{% trans %}{{ site_name_upper }} (“the Website”) is committed to ensuring digital accessibility for all users, including people with disabilities. We strive to comply with the European Accessibility Act (EAA) and with the European standard EN 301 549 v3.2.1, which incorporates the Web Content Accessibility Guidelines (WCAG) 2.1 AA requirements. This accessibility statement applies to all pages and content published on the Website.{% endtrans %}</p>
+<h2>{% trans %}2. Scope{% endtrans %}</h2>
+<p>{% trans %}This statement covers all digital content delivered through the website, including:{% endtrans %}</p>
 <ul>
-    <li>All public-facing webpages (desktop, tablet, and mobile).</li>
-    <li>PDF documents and other non-HTML content published on the Website.</li>
-    <li>Multimedia components (videos, images, audio).</li>
-    <li>Interactive elements (forms, menus, widgets).</li>
-    <li>Embedded content (external documents).</li>
+    <li>{% trans %}All public-facing webpages (desktop, tablet, and mobile).{% endtrans %}</li>
+    <li>{% trans %}PDF documents and other non-HTML content published on the Website.{% endtrans %}</li>
+    <li>{% trans %}Multimedia components (videos, images, audio).{% endtrans %}</li>
+    <li>{% trans %}Interactive elements (forms, menus, widgets).{% endtrans %}</li>
+    <li>{% trans %}Embedded content (external documents).{% endtrans %}</li>
 
 </ul>
-<h2>3. Compliance Status</h2>
-<p><strong>Conformance Level:</strong> We have assessed the Website against EN 301 549 v3.2.1 (which references WCAG 2.1 Level AA) and aim to meet all criteria.</p>
+<h2>{% trans %}3. Compliance Status{% endtrans %}</h2>
+<p>{% trans %}<strong>Conformance Level:</strong> We have assessed the Website against EN 301 549 v3.2.1 (which references WCAG 2.1 Level AA) and aim to meet all criteria.{% endtrans %}</p>
 <ul>
-    <li><p><strong>Success criteria fully met:</strong> The majority of our HTML content has been tested and verified to conform with WCAG 2.1 Level AA.</p>
+    <li><p>{% trans %}<strong>Success criteria fully met:</strong> The majority of our HTML content has been tested and verified to conform with WCAG 2.1 Level AA.{% endtrans %}</p>
     </li>
     <li>
-        <p><strong>Known exceptions &amp; limitations:</strong> Certain legacy PDF reports and third-party widgets do not yet fully satisfy every success criterion.</p>
+        <p>{% trans %}<strong>Known exceptions &amp; limitations:</strong> Certain legacy PDF reports and third-party widgets do not yet fully satisfy every success criterion.{% endtrans %}</p>
 
         {{ additional_issues | raw }}
-        
+
     </li>
 
 </ul>
-<p>We are actively working to remediate these issues and welcome your feedback on the accessibility of our website.</p>
-<h2>4. Measures to Support Accessibility</h2>
-<p>To achieve and maintain compliance with EN 301 549 v3.2.1 and the EAA, Lisbon Council has implemented the following measures:</p>
+<p>{% trans %}We are actively working to remediate these issues and welcome your feedback on the accessibility of our website.{% endtrans %}</p>
+<h2>{% trans %}4. Measures to Support Accessibility{% endtrans %}</h2>
+<p>{% trans %}To achieve and maintain compliance with EN 301 549 v3.2.1 and the EAA, Lisbon Council has implemented the following measures:{% endtrans %}</p>
 <ol>
-    <li><p><strong>Governance &amp; Oversight</strong></p>
+    <li><p><strong>{% trans %}Governance &amp; Oversight{% endtrans %}</strong></p>
         <ul>
-            <li><strong>Accessibility Coordinator:</strong> A designated Accessibility Officer (AO) is responsible for overseeing compliance, coordinating audits, and managing remediation tasks.</li>
-            <li><strong>Internal Policies:</strong> Accessibility requirements are included in our web‐development guidelines and procurement policies for third-party tools.</li>
+            <li>{% trans %}<strong>Accessibility Coordinator:</strong> A designated Accessibility Officer (AO) is responsible for overseeing compliance, coordinating audits, and managing remediation tasks.{% endtrans %}</li>
+            <li>{% trans %}<strong>Internal Policies:</strong> Accessibility requirements are included in our web‐development guidelines and procurement policies for third-party tools.{% endtrans %}</li>
 
         </ul>
     </li>
-    <li><p><strong>Technical Implementation</strong></p>
+    <li><p><strong>{% trans %}Technical Implementation{% endtrans %}</strong></p>
         <ul>
-            <li><strong>Code Standards:</strong> All new templates and components are audited against EN 301 549 (WCAG 2.1 AA).</li>
-            <li><strong>Design System:</strong> Our design system uses accessible color palettes (contrast ratio ≥ 4.5:1 for normal text), semantic HTML5 markup, and ARIA attributes where needed.</li>
-            <li><strong>Testing Tools:</strong> We employ automated scanners (e.g., Lighthouse, axe, WAVE) and manual testing (keyboard‐only navigation, screen reader verification with NVDA and VoiceOver).</li>
+            <li>{% trans %}<strong>Code Standards:</strong> All new templates and components are audited against EN 301 549 (WCAG 2.1 AA).{% endtrans %}</li>
+            <li>{% trans %}<strong>Design System:</strong> Our design system uses accessible color palettes (contrast ratio ≥ 4.5:1 for normal text), semantic HTML5 markup, and ARIA attributes where needed.{% endtrans %}</li>
+            <li>{% trans %}<strong>Testing Tools:</strong> We employ automated scanners (e.g., Lighthouse, axe, WAVE) and manual testing (keyboard‐only navigation, screen reader verification with NVDA and VoiceOver).{% endtrans %}</li>
 
         </ul>
     </li>
-    <li><p><strong>Content Creation</strong></p>
+    <li><p><strong>{% trans %}Content Creation{% endtrans %}</strong></p>
         <ul>
-            <li><strong>Editorial Training:</strong> Content authors receive training on creating accessible text, lists, headings, and tables, writing meaningful link text, and providing alt attributes.</li>
-            <li><strong>Multimedia:</strong> All newly uploaded videos include captions and/or full transcripts. Audio files have transcripts available for download.</li>
-            <li><strong>PDF Remediation:</strong> All published PDF documents follow best practices for tagging (headings, lists, tables, image descriptions).</li>
+            <li>{% trans %}<strong>Editorial Training:</strong> Content authors receive training on creating accessible text, lists, headings, and tables, writing meaningful link text, and providing alt attributes.{% endtrans %}</li>
+            <li>{% trans %}<strong>Multimedia:</strong> All newly uploaded videos include captions and/or full transcripts. Audio files have transcripts available for download.{% endtrans %}</li>
+            <li>{% trans %}<strong>PDF Remediation:</strong> All published PDF documents follow best practices for tagging (headings, lists, tables, image descriptions).{% endtrans %}</li>
 
         </ul>
     </li>
-    <li><p><strong>Continuous Monitoring &amp; Review</strong></p>
+    <li><p><strong>{% trans %}Continuous Monitoring &amp; Review{% endtrans %}</strong></p>
         <ul>
-            <li><strong>Periodic Audits:</strong> We perform accessibility audits - at least yearly - combining automated tools and manual testing.</li>
+            <li>{% trans %}<strong>Periodic Audits:</strong> We perform accessibility audits - at least yearly - combining automated tools and manual testing.{% endtrans %}</li>
 
         </ul>
     </li>
-    <li><p><strong>Accessibility as part of the organisational culture</strong></p>
+    <li><p><strong>{% trans %}Accessibility as part of the organisational culture{% endtrans %}</strong></p>
         <ul>
-            <li>  In the Lisbon Council, internal training will take place on accessibility to ensure that all staff members have at least basic knowledge in accessibility.</li>
+            <li>{% trans %}In the Lisbon Council, internal training will take place on accessibility to ensure that all staff members have at least basic knowledge in accessibility.{% endtrans %}</li>
 
         </ul>
     </li>
 
 </ol>
-<h2>5. Feedback and Contact Information</h2>
-<p>While we aim for full accessibility, we recognize that content may not always be perfect. If you encounter any barriers or have suggestions, please let us know using one of the following contact methods:</p>
+<h2>{% trans %}5. Feedback and Contact Information{% endtrans %}</h2>
+<p>{% trans %}While we aim for full accessibility, we recognize that content may not always be perfect. If you encounter any barriers or have suggestions, please let us know using one of the following contact methods:{% endtrans %}</p>
 <ul>
-    <li><strong>Email:</strong> <a href='mailto:{{email_accessibility}}'>{{email_accessibility}}</a></li>
+    <li><strong>{{ 'Email:'|t }}</strong> <a href='mailto:{{email_accessibility}}'>{{email_accessibility}}</a></li>
 
 </ul>
-<p>When reporting an issue, please include:</p>
+<p>{% trans %}When reporting an issue, please include:{% endtrans %}</p>
 <ul>
-    <li>The web page URL where the problem occurred.</li>
-    <li>A brief description of the barrier encountered.</li>
-    <li>The assistive technology (e.g., screen reader, voice recognition) you were using, if any.</li>
-    <li>Your contact information if you wish to receive a response.</li>
+    <li>{% trans %}The web page URL where the problem occurred.{% endtrans %}</li>
+    <li>{% trans %}A brief description of the barrier encountered.{% endtrans %}</li>
+    <li>{% trans %}The assistive technology (e.g., screen reader, voice recognition) you were using, if any.{% endtrans %}</li>
+    <li>{% trans %}Your contact information if you wish to receive a response.{% endtrans %}</li>
 
 </ul>
-<p>We aim to acknowledge all accessibility inquiries within 5 business days and resolve identified issues in a timely manner (typically within 30 days, depending on complexity).</p>
+<p>{% trans %}We aim to acknowledge all accessibility inquiries within 5 business days and resolve identified issues in a timely manner (typically within 30 days, depending on complexity).{% endtrans %}</p>
